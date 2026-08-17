@@ -6,7 +6,7 @@ const connectDB = require("./config/db");
 
 const authRoutes = require("./routes/authRoutes");
 const studentRoutes = require("./routes/studentRoutes");
-
+const feeRoutes = require("./routes/feeRoutes");
 
 
 
@@ -23,6 +23,10 @@ app.use(express.json());
 // Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/students", require("./routes/studentRoutes"));
+app.use("/api/fees", require("./routes/feeRoutes"));
+
+
+
 
 app.get("/", (req, res) => {
   res.json({
