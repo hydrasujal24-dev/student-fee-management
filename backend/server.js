@@ -7,7 +7,7 @@ const connectDB = require("./config/db");
 const authRoutes = require("./routes/authRoutes");
 const studentRoutes = require("./routes/studentRoutes");
 const feeRoutes = require("./routes/feeRoutes");
-
+const paymentRoutes = require("./routes/paymentRoutes");
 
 
 
@@ -24,7 +24,7 @@ app.use(express.json());
 app.use("/api/auth", authRoutes);
 app.use("/api/students", require("./routes/studentRoutes"));
 app.use("/api/fees", require("./routes/feeRoutes"));
-
+app.use("/api/payments", require("./routes/paymentRoutes"));
 
 
 
