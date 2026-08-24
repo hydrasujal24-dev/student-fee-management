@@ -9,7 +9,7 @@ const studentRoutes = require("./routes/studentRoutes");
 const feeRoutes = require("./routes/feeRoutes");
 const paymentRoutes = require("./routes/paymentRoutes");
 const studentDashboardRoutes = require("./routes/studentDashboardRoutes");
-
+const adminDashboardRoutes = require("./routes/adminDashboardRoutes");
 
 dotenv.config();
 
@@ -19,17 +19,14 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
-    
+
 // Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/students", require("./routes/studentRoutes"));
 app.use("/api/fees", require("./routes/feeRoutes"));
 app.use("/api/payments", require("./routes/paymentRoutes"));
-app.use(
-  "/api/student",
-  require("./routes/studentDashboardRoutes")
-);
-
+app.use("/api/student",require("./routes/studentDashboardRoutes"));
+app.use("/api/admin/dashboard",require("./routes/adminDashboardRoutes"));
 
 app.get("/", (req, res) => {
   res.json({
