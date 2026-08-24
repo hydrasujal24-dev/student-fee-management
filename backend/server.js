@@ -8,7 +8,7 @@ const authRoutes = require("./routes/authRoutes");
 const studentRoutes = require("./routes/studentRoutes");
 const feeRoutes = require("./routes/feeRoutes");
 const paymentRoutes = require("./routes/paymentRoutes");
-
+const studentDashboardRoutes = require("./routes/studentDashboardRoutes");
 
 
 dotenv.config();
@@ -25,7 +25,10 @@ app.use("/api/auth", authRoutes);
 app.use("/api/students", require("./routes/studentRoutes"));
 app.use("/api/fees", require("./routes/feeRoutes"));
 app.use("/api/payments", require("./routes/paymentRoutes"));
-
+app.use(
+  "/api/student",
+  require("./routes/studentDashboardRoutes")
+);
 
 
 app.get("/", (req, res) => {
