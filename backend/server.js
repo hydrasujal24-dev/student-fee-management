@@ -10,6 +10,8 @@ const feeRoutes = require("./routes/feeRoutes");
 const paymentRoutes = require("./routes/paymentRoutes");
 const studentDashboardRoutes = require("./routes/studentDashboardRoutes");
 const adminDashboardRoutes = require("./routes/adminDashboardRoutes");
+const receiptRoutes = require("./routes/receiptRoutes");
+
 
 dotenv.config();
 
@@ -27,12 +29,18 @@ app.use("/api/fees", require("./routes/feeRoutes"));
 app.use("/api/payments", require("./routes/paymentRoutes"));
 app.use("/api/student",require("./routes/studentDashboardRoutes"));
 app.use("/api/admin/dashboard",require("./routes/adminDashboardRoutes"));
-
 app.get("/", (req, res) => {
   res.json({
     message: "Student Fee Management API is running",
   });
 });
+app.use(
+  "/api/receipts",
+  require("./routes/receiptRoutes")
+);
+
+
+
 
 const PORT = process.env.PORT || 5000;
 

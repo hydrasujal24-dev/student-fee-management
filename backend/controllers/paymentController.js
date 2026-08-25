@@ -1,14 +1,16 @@
 const Payment = require("../models/Payment");
+const crypto = require("crypto");
 const Student = require("../models/Student");
 const Fee = require("../models/Fee");
 
 // Generate receipt number
-const generateReceiptNumber = async () => {
-  const count = await Payment.countDocuments();
+const generateReceiptNumber = () => {
+  const uniquePart = crypto.randomUUID()
+    .replace(/-/g, "")
+    .slice(0, 8)
+    .toUpperCase();
 
-  const number = count + 1;
-
-  return `REC-${String(number).padStart(5, "0")}`;
+  return `REC-${uniquePart}`;
 };
 
 // Add Payment
