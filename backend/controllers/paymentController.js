@@ -152,22 +152,86 @@ const getStudentPayments = async (req, res) => {
 // Get All Payments
 const getAllPayments = async (req, res) => {
   try {
-    const payments = await Payment.find()
+    const {
+      search = "",
+      feeType = "",
+      paymentMethod = "",
+      page = 1,
+      limit = 10,
+    } = req.query;
+
+    const query = {};
+
+    // Search student first
+    if (search) {
+      const students = await Student.find({
+        $or: [
+          { name: { $regex: search, $options: "i" } },
+          {
+            studentId: {
+              $regex: search,
+              $options: "i",
+            },
+          },
+          {
+            email: {
+              $regex: search,
+              $options: "i",
+            },
+          },
+        ],
+      }).select("_id");
+
+      query.student = {
+        $in: students.map((student) => student._id),
+      };
+    }
+
+    if (feeType) {
+      query.feeType = feeType;
+    }
+
+    if (paymentMethod) {
+      query.paymentMethod = paymentMethod;
+    }
+
+    const skip = (Number(page) - 1) * Number(limit);
+
+    const payments = await Payment.find(query)
       .populate(
         "student",
         "studentId name className section"
       )
-      .sort({ paymentDate: -1 });
+      .sort({ paymentDate: -1 })
+      .skip(skip)
+      .limit(Number(limit));
 
-    const totalCollection = payments.reduce(
+    const totalPayments = await Payment.countDocuments(
+      query
+    );
+
+    const allMatchingPayments = await Payment.find(
+      query
+    ).select("amount");
+
+    const totalCollection = allMatchingPayments.reduce(
       (total, payment) => total + payment.amount,
       0
     );
 
     res.status(200).json({
-      count: payments.length,
-      totalCollection,
       payments,
+
+      totalCollection,
+
+      pagination: {
+        currentPage: Number(page),
+        totalPages: Math.ceil(
+          totalPayments / Number(limit)
+        ),
+        totalPayments,
+        limit: Number(limit),
+      },
     });
   } catch (error) {
     res.status(500).json({

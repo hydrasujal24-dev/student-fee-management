@@ -68,11 +68,54 @@ const addStudent = async (req, res) => {
 // Get All Students
 const getStudents = async (req, res) => {
   try {
-    const students = await Student.find().sort({ createdAt: -1 });
+    const {
+      search = "",
+      className = "",
+      section = "",
+      page = 1,
+      limit = 10,
+    } = req.query;
+
+    const query = {};
+
+    // Search by name, student ID, or email
+    if (search) {
+      query.$or = [
+        { name: { $regex: search, $options: "i" } },
+        { studentId: { $regex: search, $options: "i" } },
+        { email: { $regex: search, $options: "i" } },
+      ];
+    }
+
+    // Filter by class
+    if (className) {
+      query.className = className;
+    }
+
+    // Filter by section
+    if (section) {
+      query.section = section;
+    }
+
+    const skip = (Number(page) - 1) * Number(limit);
+
+    const students = await Student.find(query)
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(Number(limit));
+
+    const totalStudents = await Student.countDocuments(query);
 
     res.status(200).json({
-      count: students.length,
       students,
+      pagination: {
+        currentPage: Number(page),
+        totalPages: Math.ceil(
+          totalStudents / Number(limit)
+        ),
+        totalStudents,
+        limit: Number(limit),
+      },
     });
   } catch (error) {
     res.status(500).json({
