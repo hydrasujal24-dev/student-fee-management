@@ -1,4 +1,6 @@
 const express = require("express");
+const studentValidation = require("../middleware/studentValidation");
+const validate = require("../middleware/validationMiddleware");
 
 const {
   addStudent,
@@ -15,7 +17,14 @@ const {
 
 const router = express.Router();
 
-router.post("/", protect, adminOnly, addStudent);
+router.post(
+  "/",
+  protect,
+  adminOnly,
+  studentValidation,
+  validate,
+  addStudent
+);
 
 router.get("/", protect, adminOnly, getStudents);
 

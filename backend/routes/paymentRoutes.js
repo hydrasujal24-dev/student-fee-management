@@ -1,4 +1,6 @@
 const express = require("express");
+const paymentValidation = require("../middleware/paymentValidation");
+const validate = require("../middleware/validationMiddleware");
 
 const {
   addPayment,
@@ -13,13 +15,25 @@ const {
 
 const router = express.Router();
 
-// Record payment
-router.post("/", protect, adminOnly, addPayment);
+// Record a payment
+router.post(
+  "/",
+  protect,
+  adminOnly,
+  paymentValidation,
+  validate,
+  addPayment
+);
 
 // Get all payments
-router.get("/", protect, adminOnly, getAllPayments);
+router.get(
+  "/",
+  protect,
+  adminOnly,
+  getAllPayments
+);
 
-// Get payment history for student
+// Get payment history for a student
 router.get(
   "/student/:studentId",
   protect,

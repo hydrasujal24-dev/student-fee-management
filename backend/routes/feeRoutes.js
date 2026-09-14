@@ -1,4 +1,6 @@
 const express = require("express");
+const feeValidation = require("../middleware/feeValidation");
+const validate = require("../middleware/validationMiddleware");
 
 const {
   createFee,
@@ -15,7 +17,14 @@ const {
 const router = express.Router();
 
 // Create fee structure
-router.post("/", protect, adminOnly, createFee);
+router.post(
+  "/",
+  protect,
+  adminOnly,
+  feeValidation,
+  validate,
+  createFee
+);
 
 // Get all fee structures
 router.get("/", protect, adminOnly, getAllFees);
