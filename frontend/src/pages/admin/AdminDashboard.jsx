@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import api from "../../services/api";
+import "./AdminDashboard.css";
 
 function AdminDashboard() {
   const [dashboard, setDashboard] = useState(null);
@@ -39,45 +40,72 @@ function AdminDashboard() {
   const { statistics, recentPayments } = dashboard;
 
   return (
-    <div>
-      <h1>Admin Dashboard</h1>
+    <div className="dashboard">
+      <div className="dashboard-header">
+        <h1>Admin Dashboard</h1>
+        <p>Overview of your student fee management system</p>
+      </div>
 
       <h2>Overview</h2>
 
-      <p>
-        Total Students: {statistics.totalStudents}
-      </p>
+      <div className="stats-grid">
+        <div className="stat-card">
+          <h3>Total Students</h3>
+          <p>{statistics.totalStudents}</p>
+        </div>
 
-      <p>
-        Total Fees: Rs. {statistics.totalFee}
-      </p>
+        <div className="stat-card">
+          <h3>Total Fees</h3>
+          <p>Rs. {statistics.totalFee}</p>
+        </div>
 
-      <p>
-        Total Collection: Rs. {statistics.totalCollection}
-      </p>
+        <div className="stat-card">
+          <h3>Total Collection</h3>
+          <p>Rs. {statistics.totalCollection}</p>
+        </div>
 
-      <p>
-        Total Pending: Rs. {statistics.totalPending}
-      </p>
+        <div className="stat-card">
+          <h3>Total Pending</h3>
+          <p>Rs. {statistics.totalPending}</p>
+        </div>
 
-      <p>
-        Today's Collection: Rs. {statistics.todayCollection}
-      </p>
+        <div className="stat-card">
+          <h3>Today's Collection</h3>
+          <p>Rs. {statistics.todayCollection}</p>
+        </div>
+      </div>
 
-      <h2>Recent Payments</h2>
+      <div className="recent-payments">
+        <h2>Recent Payments</h2>
 
-      {recentPayments.length === 0 ? (
-        <p>No recent payments.</p>
-      ) : (
-        <ul>
-          {recentPayments.map((payment) => (
-            <li key={payment._id}>
-              {payment.student.name} — {payment.feeType} — Rs.{" "}
-              {payment.amount} — {payment.paymentMethod}
-            </li>
-          ))}
-        </ul>
-      )}
+        {recentPayments.length === 0 ? (
+          <p>No recent payments.</p>
+        ) : (
+          <table>
+            <thead>
+              <tr>
+                <th>Student</th>
+                <th>Fee Type</th>
+                <th>Amount</th>
+                <th>Payment Method</th>
+                <th>Receipt</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {recentPayments.map((payment) => (
+                <tr key={payment._id}>
+                  <td>{payment.student.name}</td>
+                  <td>{payment.feeType}</td>
+                  <td>Rs. {payment.amount}</td>
+                  <td>{payment.paymentMethod}</td>
+                  <td>{payment.receiptNumber}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
+      </div>
     </div>
   );
 }
