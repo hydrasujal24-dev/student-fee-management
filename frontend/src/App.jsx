@@ -5,7 +5,7 @@ import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminLayout from "./components/AdminLayout";
 import Students from "./pages/admin/Students";
 import AddStudent from "./pages/admin/AddStudent";
-
+import Fees from "./pages/admin/Fees";
 
 function App() {
   return (
@@ -19,7 +19,7 @@ function App() {
           element={<StudentDashboard />}
         />
 
-        <Route element={<AdminLayout />}>
+<Route element={<AdminLayout />}>
   <Route
     path="/admin/dashboard"
     element={<AdminDashboard />}
@@ -33,6 +33,11 @@ function App() {
   <Route
     path="/admin/students/add"
     element={<AddStudent />}
+  />
+
+  <Route
+    path="/admin/fees"
+    element={<Fees />}
   />
 </Route>
         
