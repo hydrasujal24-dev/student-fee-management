@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import api from "../../services/api";
 
 function Students() {
+  const navigate = useNavigate();
   const [students, setStudents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -71,9 +73,15 @@ function Students() {
   }
 
   return (
+  <div>
     <div>
       <h1>Students</h1>
       <p>Manage student records</p>
+
+      <button onClick={() => navigate("/admin/students/add")}>
+        Add Student
+      </button>
+    </div>
 
       <div>
         <input

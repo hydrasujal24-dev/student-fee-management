@@ -4,6 +4,8 @@ import StudentDashboard from "./pages/student/StudentDashboard";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminLayout from "./components/AdminLayout";
 import Students from "./pages/admin/Students";
+import AddStudent from "./pages/admin/AddStudent";
+
 
 function App() {
   return (
@@ -18,16 +20,22 @@ function App() {
         />
 
         <Route element={<AdminLayout />}>
-          <Route
-            path="/admin/dashboard"
-            element={<AdminDashboard />}
-          />
+  <Route
+    path="/admin/dashboard"
+    element={<AdminDashboard />}
+  />
 
-          <Route
-            path="/admin/students"
-            element={<Students />}
-          />
-        </Route>
+  <Route
+    path="/admin/students"
+    element={<Students />}
+  />
+
+  <Route
+    path="/admin/students/add"
+    element={<AddStudent />}
+  />
+</Route>
+        
       </Routes>
     </BrowserRouter>
   );
