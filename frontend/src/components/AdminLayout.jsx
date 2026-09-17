@@ -1,4 +1,4 @@
-import { Link, Outlet, useNavigate } from "react-router-dom";
+import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import "./AdminLayout.css";
 
 function AdminLayout() {
@@ -19,11 +19,42 @@ function AdminLayout() {
         </div>
 
         <nav className="sidebar-nav">
-          <Link to="/admin/dashboard">Dashboard</Link>
-          <Link to="/admin/students">Students</Link>
-          <Link to="/admin/fees">Fee Management</Link>
-          <Link to="/admin/payments">Payments</Link>
-        </nav>
+  <NavLink
+    to="/admin/dashboard"
+    className={({ isActive }) =>
+      isActive ? "active" : ""
+    }
+  >
+    Dashboard
+  </NavLink>
+
+  <NavLink
+    to="/admin/students"
+    className={({ isActive }) =>
+      isActive ? "active" : ""
+    }
+  >
+    Students
+  </NavLink>
+
+  <NavLink
+    to="/admin/fees"
+    className={({ isActive }) =>
+      isActive ? "active" : ""
+    }
+  >
+    Fee Management
+  </NavLink>
+
+  <NavLink
+    to="/admin/payments"
+    className={({ isActive }) =>
+      isActive ? "active" : ""
+    }
+  >
+    Payments
+  </NavLink>
+</nav>
 
         <button className="logout-btn" onClick={handleLogout}>
           Logout

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../../services/api";
+import "./Students.css";
 
 function Students() {
   const navigate = useNavigate();
@@ -72,73 +73,98 @@ function Students() {
     return <p>{error}</p>;
   }
 
-  return (
-  <div>
-    <div>
-      <h1>Students</h1>
-      <p>Manage student records</p>
+ return (
+  <div className="students-page">
+    <div className="page-header">
+      <div>
+        <h1>Students</h1>
+        <p>Manage student records</p>
+      </div>
 
-      <button onClick={() => navigate("/admin/students/add")}>
-        Add Student
+      <button
+        className="primary-btn"
+        onClick={() => navigate("/admin/students/add")}
+      >
+        + Add Student
       </button>
     </div>
 
-      <div>
-        <input
-          type="text"
-          placeholder="Search by name, email or student ID"
-          value={search}
-          onChange={handleSearchChange}
-        />
+    {error && <div className="error-message">{error}</div>}
 
-        <select value={className} onChange={handleClassChange}>
-          <option value="">All Classes</option>
-          <option value="BIT">BIT</option>
-          <option value="BCA">BCA</option>
-          <option value="BBA">BBA</option>
-        </select>
+    <div className="student-filters">
+      <input
+        type="text"
+        placeholder="Search by name, email or student ID..."
+        value={search}
+        onChange={handleSearchChange}
+      />
 
-        <select value={section} onChange={handleSectionChange}>
-          <option value="">All Sections</option>
-          <option value="A">A</option>
-          <option value="B">B</option>
-          <option value="C">C</option>
-        </select>
-      </div>
+      <select value={className} onChange={handleClassChange}>
+        <option value="">All Classes</option>
+        <option value="BIT">BIT</option>
+        <option value="BCA">BCA</option>
+        <option value="BBA">BBA</option>
+      </select>
 
+      <select value={section} onChange={handleSectionChange}>
+        <option value="">All Sections</option>
+        <option value="A">A</option>
+        <option value="B">B</option>
+        <option value="C">C</option>
+      </select>
+    </div>
+
+    <div className="students-card">
       {loading ? (
-        <p>Loading students...</p>
+        <p className="table-message">Loading students...</p>
       ) : students.length === 0 ? (
-        <p>No students found.</p>
+        <p className="table-message">No students found.</p>
       ) : (
         <>
-          <table>
-            <thead>
-              <tr>
-                <th>Student ID</th>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Class</th>
-                <th>Section</th>
-                <th>Phone</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              {students.map((student) => (
-                <tr key={student._id}>
-                  <td>{student.studentId}</td>
-                  <td>{student.name}</td>
-                  <td>{student.email}</td>
-                  <td>{student.className}</td>
-                  <td>{student.section}</td>
-                  <td>{student.phone}</td>
+          <div className="table-wrapper">
+            <table className="students-table">
+              <thead>
+                <tr>
+                  <th>Student ID</th>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Class</th>
+                  <th>Section</th>
+                  <th>Phone</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
 
-          <div>
+              <tbody>
+                {students.map((student) => (
+                  <tr key={student._id}>
+                    <td>
+                      <span className="student-id">
+                        {student.studentId}
+                      </span>
+                    </td>
+
+                    <td className="student-name">
+                      {student.name}
+                    </td>
+
+                    <td>{student.email}</td>
+
+                    <td>
+                      <span className="class-badge">
+                        {student.className}
+                      </span>
+                    </td>
+
+                    <td>{student.section}</td>
+
+                    <td>{student.phone}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          <div className="pagination">
             <button
               onClick={() => setPage(page - 1)}
               disabled={page === 1}
@@ -147,7 +173,8 @@ function Students() {
             </button>
 
             <span>
-              Page {page} of {totalPages}
+              Page <strong>{page}</strong> of{" "}
+              <strong>{totalPages}</strong>
             </span>
 
             <button
@@ -160,7 +187,8 @@ function Students() {
         </>
       )}
     </div>
-  );
+  </div>
+);
 }
 
 export default Students;

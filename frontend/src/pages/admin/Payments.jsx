@@ -19,6 +19,15 @@ function Payments() {
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
 
+  const [search, setSearch] = useState("");
+const [feeType, setFeeType] = useState("");
+const [paymentMethod, setPaymentMethod] = useState("");
+
+const [page, setPage] = useState(1);
+const [totalPages, setTotalPages] = useState(1);
+
+const limit = 10;
+
   useEffect(() => {
     const fetchStudents = async () => {
       try {
@@ -45,7 +54,7 @@ function Payments() {
     fetchStudents();
   }, []);
 
-  useEffect(() => {
+ useEffect(() => {
   const fetchPayments = async () => {
     try {
       setPaymentsLoading(true);
@@ -57,11 +66,16 @@ function Payments() {
           Authorization: `Bearer ${token}`,
         },
         params: {
-          limit: 100,
+          search,
+          feeType,
+          paymentMethod,
+          page,
+          limit,
         },
       });
 
-      setPayments(response.data.payments || response.data);
+      setPayments(response.data.payments);
+      setTotalPages(response.data.totalPages || 1);
     } catch (err) {
       setError(
         err.response?.data?.message ||
@@ -73,7 +87,7 @@ function Payments() {
   };
 
   fetchPayments();
-}, []);
+}, [search, feeType, paymentMethod, page]);
 
   const handleChange = (e) => {
     setFormData({
@@ -236,6 +250,58 @@ setPayments(
           {loading ? "Recording..." : "Record Payment"}
         </button>
       </form>
+      
+<div>
+  <input
+    type="text"
+    placeholder="Search student..."
+    value={search}
+    onChange={(e) => {
+      setSearch(e.target.value);
+      setPage(1);
+    }}
+  />
+
+  <select
+    value={feeType}
+    onChange={(e) => {
+      setFeeType(e.target.value);
+      setPage(1);
+    }}
+  >
+   
+
+    <option value="">All Fee Types</option>
+    <option value="Tuition">Tuition</option>
+    <option value="Transport">Transport</option>
+    <option value="Exam">Exam</option>
+    <option value="Other">Other</option>
+  </select>
+
+  <select
+    value={paymentMethod}
+    onChange={(e) => {
+      setPaymentMethod(e.target.value);
+      setPage(1);
+    }}
+  >
+    <option value="">All Payment Methods</option>
+    <option value="Cash">Cash</option>
+    <option value="Bank">Bank</option>
+    <option value="Cheque">Cheque</option>
+  </select>
+  <button
+  type="button"
+  onClick={() => {
+    setSearch("");
+    setFeeType("");
+    setPaymentMethod("");
+    setPage(1);
+  }}
+>
+  Clear Filters
+</button>
+</div>
 
       <h2>Payment History</h2>
 
@@ -283,6 +349,26 @@ setPayments(
     </tbody>
   </table>
 )}
+
+<div>
+  <button
+    onClick={() => setPage(page - 1)}
+    disabled={page === 1}
+  >
+    Previous
+  </button>
+
+  <span>
+    Page {page} of {totalPages}
+  </span>
+
+  <button
+    onClick={() => setPage(page + 1)}
+    disabled={page === totalPages}
+  >
+    Next
+  </button>
+</div>
     </div>
   );
 }
