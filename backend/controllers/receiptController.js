@@ -81,7 +81,7 @@ const generateReceipt = async (req, res) => {
     doc
       .fontSize(20)
       .font("Helvetica-Bold")
-      .text("STUDENT FEE MANAGEMENT SYSTEM", {
+      .text("ITAHARI INTERNATIONAL COLLEGE", {
         align: "center",
       });
 

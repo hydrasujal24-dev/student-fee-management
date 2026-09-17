@@ -251,3 +251,18 @@
     gap: 15px;
   }
 }
+
+.cancel-btn {
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background: white;
+  color: #374151;
+  padding: 11px 18px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.cancel-btn:hover {
+  background: #f3f4f6;
+}
