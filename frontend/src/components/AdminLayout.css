@@ -4,10 +4,7 @@
   background: #f8fafc;
 }
 
-/* =========================
-   SIDEBAR
-========================= */
-
+/* Sidebar */
 .admin-sidebar {
   width: 250px;
   min-height: 100vh;
@@ -17,6 +14,7 @@
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
+  flex-shrink: 0;
 }
 
 .sidebar-header {
@@ -37,17 +35,18 @@
   font-size: 13px;
 }
 
-/* =========================
-   NAVIGATION
-========================= */
-
+/* Navigation */
 .sidebar-nav {
   display: flex;
   flex-direction: column;
   gap: 6px;
+  width: 100%;
 }
 
 .sidebar-nav a {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
   text-decoration: none;
   color: #d1d5db;
   padding: 12px 14px;
@@ -67,10 +66,7 @@
   color: white;
 }
 
-/* =========================
-   LOGOUT
-========================= */
-
+/* Logout */
 .logout-btn {
   margin-top: auto;
   width: 100%;
@@ -89,10 +85,7 @@
   color: white;
 }
 
-/* =========================
-   MAIN CONTENT
-========================= */
-
+/* Main content */
 .admin-content {
   flex: 1;
   min-width: 0;
@@ -100,10 +93,7 @@
   box-sizing: border-box;
 }
 
-/* =========================
-   RESPONSIVE
-========================= */
-
+/* Mobile */
 @media (max-width: 700px) {
   .admin-layout {
     flex-direction: column;
@@ -126,6 +116,7 @@
   }
 
   .sidebar-nav a {
+    width: auto;
     padding: 9px 12px;
   }
 

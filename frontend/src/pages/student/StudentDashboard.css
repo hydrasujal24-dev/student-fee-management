@@ -1,0 +1,208 @@
+.student-dashboard {
+  min-height: 100vh;
+  padding: 32px;
+  background: #f8fafc;
+  box-sizing: border-box;
+}
+
+.student-header {
+  max-width: 1100px;
+  margin: 0 auto 28px;
+}
+
+.student-header h1 {
+  margin: 0;
+  font-size: 30px;
+  color: #111827;
+}
+
+.student-header p {
+  margin: 6px 0 0;
+  color: #6b7280;
+  font-size: 14px;
+}
+
+/* Welcome */
+.welcome-card {
+  max-width: 1100px;
+  margin: 0 auto 30px;
+  padding: 24px;
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.welcome-label {
+  margin: 0 0 5px;
+  color: #6b7280;
+  font-size: 13px;
+}
+
+.welcome-card h2 {
+  margin: 0;
+  color: #111827;
+  font-size: 24px;
+}
+
+.student-info {
+  margin: 7px 0 0;
+  color: #6b7280;
+  font-size: 14px;
+}
+
+/* Fee Summary */
+.section-title {
+  max-width: 1100px;
+  margin: 0 auto 18px;
+  font-size: 19px;
+  color: #111827;
+}
+
+.fee-summary-grid {
+  max-width: 1100px;
+  margin: 0 auto 30px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+
+.fee-card {
+  background: white;
+  padding: 22px;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.fee-card p {
+  margin: 0 0 10px;
+  color: #6b7280;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.fee-card h3 {
+  margin: 0;
+  color: #111827;
+  font-size: 25px;
+}
+
+.outstanding-card h3 {
+  color: #dc2626;
+}
+
+/* Payments */
+.payments-card {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 24px;
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.payments-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.payments-header h2 {
+  margin: 0;
+  font-size: 19px;
+  color: #111827;
+}
+
+.payments-header span {
+  color: #6b7280;
+  font-size: 13px;
+}
+
+.payment-table-wrapper {
+  overflow-x: auto;
+}
+
+.payment-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.payment-table th {
+  background: #f9fafb;
+  color: #6b7280;
+  text-align: left;
+  padding: 13px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.payment-table td {
+  padding: 14px;
+  color: #374151;
+  font-size: 14px;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.payment-table tbody tr:hover {
+  background: #f9fafb;
+}
+
+.payment-amount {
+  font-weight: 600;
+  color: #111827 !important;
+  white-space: nowrap;
+}
+
+.no-payments {
+  margin: 0;
+  padding: 30px;
+  text-align: center;
+  color: #6b7280;
+}
+
+.student-error {
+  max-width: 1100px;
+  margin: 30px auto;
+  padding: 15px;
+  color: #b91c1c;
+  background: #fee2e2;
+  border-radius: 8px;
+}
+
+.student-loading {
+  max-width: 1100px;
+  margin: 30px auto;
+  color: #6b7280;
+}
+
+/* Responsive */
+@media (max-width: 800px) {
+  .student-dashboard {
+    padding: 20px;
+  }
+
+  .fee-summary-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .student-header h1 {
+    font-size: 26px;
+  }
+
+  .welcome-card,
+  .payments-card {
+    padding: 18px;
+  }
+
+  .payments-header {
+    align-items: flex-start;
+    gap: 10px;
+    flex-direction: column;
+  }
+}

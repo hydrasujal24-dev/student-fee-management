@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import api from "../../services/api";
+import "./StudentDashboard.css";
 
 function StudentDashboard() {
   const [dashboard, setDashboard] = useState(null);
@@ -29,47 +30,99 @@ function StudentDashboard() {
   }, []);
 
   if (error) {
-    return <p>{error}</p>;
+    return (
+      <div className="student-dashboard">
+        <p className="student-error">{error}</p>
+      </div>
+    );
   }
 
   if (!dashboard) {
-    return <p>Loading dashboard...</p>;
+    return (
+      <div className="student-dashboard">
+        <p className="student-loading">Loading dashboard...</p>
+      </div>
+    );
   }
 
+  const { student, feeSummary, payments } = dashboard;
+
   return (
-    <div>
-      <h1>Student Dashboard</h1>
+    <div className="student-dashboard">
+      <div className="student-header">
+        <div>
+          <h1>Student Dashboard</h1>
+          <p>View your fee information and payment history</p>
+        </div>
+      </div>
 
-      <h2>Welcome, {dashboard.student.name}</h2>
+      <div className="welcome-card">
+        <div>
+          <p className="welcome-label">Welcome back</p>
+          <h2>{student.name}</h2>
+          <p className="student-info">
+            Student ID: {student.studentId}
+          </p>
+        </div>
+      </div>
 
-      <h2>Fee Summary</h2>
+      <h2 className="section-title">Fee Summary</h2>
 
-      <p>
-        Total Fee: Rs. {dashboard.feeSummary.totalFee}
-      </p>
+      <div className="fee-summary-grid">
+        <div className="fee-card">
+          <p>Total Fee</p>
+          <h3>Rs. {feeSummary.totalFee}</h3>
+        </div>
 
-      <p>
-        Total Paid: Rs. {dashboard.feeSummary.totalPaid}
-      </p>
+        <div className="fee-card">
+          <p>Total Paid</p>
+          <h3>Rs. {feeSummary.totalPaid}</h3>
+        </div>
 
-      <p>
-        Outstanding: Rs. {dashboard.feeSummary.outstanding}
-      </p>
+        <div className="fee-card outstanding-card">
+          <p>Outstanding</p>
+          <h3>Rs. {feeSummary.outstanding}</h3>
+        </div>
+      </div>
 
-      <h2>Payment History</h2>
+      <div className="payments-card">
+        <div className="payments-header">
+          <h2>Payment History</h2>
+          <span>{payments.length} payment(s)</span>
+        </div>
 
-      {dashboard.payments.length === 0 ? (
-        <p>No payments found.</p>
-      ) : (
-        <ul>
-          {dashboard.payments.map((payment) => (
-            <li key={payment._id}>
-              {payment.feeType} — Rs. {payment.amount} —{" "}
-              {payment.paymentMethod}
-            </li>
-          ))}
-        </ul>
-      )}
+        {payments.length === 0 ? (
+          <p className="no-payments">No payments found.</p>
+        ) : (
+          <div className="payment-table-wrapper">
+            <table className="payment-table">
+              <thead>
+                <tr>
+                  <th>Fee Type</th>
+                  <th>Amount</th>
+                  <th>Payment Method</th>
+                  <th>Date</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {payments.map((payment) => (
+                  <tr key={payment._id}>
+                    <td>{payment.feeType}</td>
+                    <td className="payment-amount">
+                      Rs. {payment.amount}
+                    </td>
+                    <td>{payment.paymentMethod}</td>
+                    <td>
+                      {new Date(payment.paymentDate).toLocaleDateString()}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
