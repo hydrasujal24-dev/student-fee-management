@@ -6,6 +6,8 @@ import AdminLayout from "./components/AdminLayout";
 import Students from "./pages/admin/Students";
 import AddStudent from "./pages/admin/AddStudent";
 import Fees from "./pages/admin/Fees";
+import Payments from "./pages/admin/Payments";
+
 
 function App() {
   return (
@@ -39,6 +41,12 @@ function App() {
     path="/admin/fees"
     element={<Fees />}
   />
+
+  <Route
+  path="/admin/payments"
+  element={<Payments />}
+/>
+
 </Route>
         
       </Routes>
