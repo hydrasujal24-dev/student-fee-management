@@ -12,6 +12,10 @@ function Fees() {
     otherFee: "",
   });
 
+  const [fees, setFees] = useState([]);
+  const [feesLoading, setFeesLoading] = useState(true);
+  const [editingFee, setEditingFee] = useState(null);
+
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
@@ -32,14 +36,37 @@ function Fees() {
 
         setStudents(response.data.students);
       } catch (err) {
-        setError(
-          err.response?.data?.message ||
-            "Failed to load students"
-        );
+        setError(err.response?.data?.message || "Failed to load students");
       }
     };
 
     fetchStudents();
+  }, []);
+
+  useEffect(() => {
+    const fetchFees = async () => {
+      try {
+        setFeesLoading(true);
+
+        const token = localStorage.getItem("token");
+
+        const response = await api.get("/fees", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        setFees(response.data.fees || response.data);
+      } catch (err) {
+        setError(
+          err.response?.data?.message || "Failed to load fee structures",
+        );
+      } finally {
+        setFeesLoading(false);
+      }
+    };
+
+    fetchFees();
   }, []);
 
   const handleChange = (e) => {
@@ -47,6 +74,22 @@ function Fees() {
       ...formData,
       [e.target.name]: e.target.value,
     });
+  };
+
+  const handleEdit = (fee) => {
+    setEditingFee(fee);
+
+    setSelectedStudent(fee.student._id);
+
+    setFormData({
+      tuitionFee: fee.tuitionFee,
+      transportFee: fee.transportFee,
+      examFee: fee.examFee,
+      otherFee: fee.otherFee,
+    });
+
+    setMessage("");
+    setError("");
   };
 
   const handleSubmit = async (e) => {
@@ -59,23 +102,45 @@ function Fees() {
 
       const token = localStorage.getItem("token");
 
-      await api.post(
-        "/fees",
-        {
-          student: selectedStudent,
-          tuitionFee: Number(formData.tuitionFee) || 0,
-          transportFee: Number(formData.transportFee) || 0,
-          examFee: Number(formData.examFee) || 0,
-          otherFee: Number(formData.otherFee) || 0,
-        },
-        {
+      const feeData = {
+        tuitionFee: Number(formData.tuitionFee) || 0,
+        transportFee: Number(formData.transportFee) || 0,
+        examFee: Number(formData.examFee) || 0,
+        otherFee: Number(formData.otherFee) || 0,
+      };
+
+      if (editingFee) {
+        await api.put(`/fees/student/${editingFee.student._id}`, feeData, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        }
-      );
+        });
 
-      setMessage("Fee structure saved successfully.");
+        setMessage("Fee structure updated successfully.");
+      } else {
+        await api.post(
+          "/fees",
+          {
+            student: selectedStudent,
+            ...feeData,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          },
+        );
+
+        setMessage("Fee structure saved successfully.");
+      }
+
+      const response = await api.get("/fees", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      setFees(response.data.fees || response.data);
 
       setFormData({
         tuitionFee: "",
@@ -83,11 +148,11 @@ function Fees() {
         examFee: "",
         otherFee: "",
       });
+
+      setSelectedStudent("");
+      setEditingFee(null);
     } catch (err) {
-      setError(
-        err.response?.data?.message ||
-          "Failed to save fee structure"
-      );
+      setError(err.response?.data?.message || "Failed to save fee structure");
     } finally {
       setLoading(false);
     }
@@ -115,6 +180,7 @@ function Fees() {
             value={selectedStudent}
             onChange={(e) => setSelectedStudent(e.target.value)}
             required
+            disabled={editingFee !== null}
           >
             <option value="">Select Student</option>
 
@@ -173,9 +239,73 @@ function Fees() {
         <h3>Total Fee: Rs. {total}</h3>
 
         <button type="submit" disabled={loading}>
-          {loading ? "Saving..." : "Save Fee Structure"}
+          {loading
+            ? "Saving..."
+            : editingFee
+              ? "Update Fee Structure"
+              : "Save Fee Structure"}
         </button>
+
+        {editingFee && (
+          <button
+            type="button"
+            onClick={() => {
+              setEditingFee(null);
+              setSelectedStudent("");
+              setFormData({
+                tuitionFee: "",
+                transportFee: "",
+                examFee: "",
+                otherFee: "",
+              });
+              setMessage("");
+              setError("");
+            }}
+          >
+            Cancel Edit
+          </button>
+        )}
       </form>
+
+      <h2>Existing Fee Structures</h2>
+
+      {feesLoading ? (
+        <p>Loading fee structures...</p>
+      ) : fees.length === 0 ? (
+        <p>No fee structures found.</p>
+      ) : (
+        <table>
+          <thead>
+            <tr>
+              <th>Student</th>
+              <th>Tuition</th>
+              <th>Transport</th>
+              <th>Exam</th>
+              <th>Other</th>
+              <th>Total</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {fees.map((fee) => (
+              <tr key={fee._id}>
+                <td>
+                  {fee.student?.studentId} - {fee.student?.name}
+                </td>
+                <td>Rs. {fee.tuitionFee}</td>
+                <td>Rs. {fee.transportFee}</td>
+                <td>Rs. {fee.examFee}</td>
+                <td>Rs. {fee.otherFee}</td>
+                <td>Rs. {fee.totalFee}</td>
+                <td>
+                  <button onClick={() => handleEdit(fee)}>Edit</button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
     </div>
   );
 }
