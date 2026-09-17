@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import api from "../../services/api";
+import "./Payments.css";
 
 function Payments() {
   const [students, setStudents] = useState([]);
@@ -158,219 +159,257 @@ setPayments(
   };
 
   return (
-    <div>
-      <h1>Payments</h1>
-      <p>Record student fee payments</p>
+  <div className="payments-page">
+    <div className="page-header">
+      <div>
+        <h1>Payments</h1>
+        <p>Record student fee payments</p>
+      </div>
+    </div>
 
-      {message && <p>{message}</p>}
-      {error && <p>{error}</p>}
+    {message && <div className="success-message">{message}</div>}
+    {error && <div className="error-message">{error}</div>}
+
+    <div className="payment-form-card">
+      <div className="section-title">
+        <h2>Record Payment</h2>
+        <p>Enter the payment details for a student</p>
+      </div>
 
       <form onSubmit={handleSubmit}>
-        <div>
-          <label>Student</label>
+        <div className="payment-form-grid">
+          <div className="form-group">
+            <label>Student</label>
 
-          <select
-            value={selectedStudent}
-            onChange={(e) =>
-              setSelectedStudent(e.target.value)
-            }
-            required
+            <select
+              value={selectedStudent}
+              onChange={(e) => setSelectedStudent(e.target.value)}
+              required
+            >
+              <option value="">Select Student</option>
+
+              {students.map((student) => (
+                <option key={student._id} value={student._id}>
+                  {student.studentId} - {student.name}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className="form-group">
+            <label>Amount</label>
+
+            <input
+              type="number"
+              name="amount"
+              value={formData.amount}
+              onChange={handleChange}
+              min="1"
+              placeholder="Enter amount"
+              required
+            />
+          </div>
+
+          <div className="form-group">
+            <label>Fee Type</label>
+
+            <select
+              name="feeType"
+              value={formData.feeType}
+              onChange={handleChange}
+              required
+            >
+              <option value="">Select Fee Type</option>
+              <option value="Tuition">Tuition</option>
+              <option value="Transport">Transport</option>
+              <option value="Exam">Exam</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+
+          <div className="form-group">
+            <label>Payment Method</label>
+
+            <select
+              name="paymentMethod"
+              value={formData.paymentMethod}
+              onChange={handleChange}
+              required
+            >
+              <option value="">Select Payment Method</option>
+              <option value="Cash">Cash</option>
+              <option value="Bank">Bank</option>
+              <option value="Cheque">Cheque</option>
+            </select>
+          </div>
+
+          <div className="form-group full-width">
+            <label>Remarks</label>
+
+            <textarea
+              name="remarks"
+              value={formData.remarks}
+              onChange={handleChange}
+              placeholder="Optional"
+              rows="3"
+            />
+          </div>
+        </div>
+
+        <div className="form-actions">
+          <button
+            type="submit"
+            className="primary-btn"
+            disabled={loading}
           >
-            <option value="">Select Student</option>
-
-            {students.map((student) => (
-              <option
-                key={student._id}
-                value={student._id}
-              >
-                {student.studentId} - {student.name}
-              </option>
-            ))}
-          </select>
+            {loading ? "Recording..." : "Record Payment"}
+          </button>
         </div>
-
-        <div>
-          <label>Amount</label>
-
-          <input
-            type="number"
-            name="amount"
-            value={formData.amount}
-            onChange={handleChange}
-            min="1"
-            required
-          />
-        </div>
-
-        <div>
-          <label>Fee Type</label>
-
-          <select
-            name="feeType"
-            value={formData.feeType}
-            onChange={handleChange}
-            required
-          >
-            <option value="">Select Fee Type</option>
-            <option value="Tuition">Tuition</option>
-            <option value="Transport">Transport</option>
-            <option value="Exam">Exam</option>
-            <option value="Other">Other</option>
-          </select>
-        </div>
-
-        <div>
-          <label>Payment Method</label>
-
-          <select
-            name="paymentMethod"
-            value={formData.paymentMethod}
-            onChange={handleChange}
-            required
-          >
-            <option value="">Select Payment Method</option>
-            <option value="Cash">Cash</option>
-            <option value="Bank">Bank</option>
-            <option value="Cheque">Cheque</option>
-          </select>
-        </div>
-
-        <div>
-          <label>Remarks</label>
-
-          <textarea
-            name="remarks"
-            value={formData.remarks}
-            onChange={handleChange}
-            placeholder="Optional"
-          />
-        </div>
-
-        <button type="submit" disabled={loading}>
-          {loading ? "Recording..." : "Record Payment"}
-        </button>
       </form>
-      
-<div>
-  <input
-    type="text"
-    placeholder="Search student..."
-    value={search}
-    onChange={(e) => {
-      setSearch(e.target.value);
-      setPage(1);
-    }}
-  />
-
-  <select
-    value={feeType}
-    onChange={(e) => {
-      setFeeType(e.target.value);
-      setPage(1);
-    }}
-  >
-   
-
-    <option value="">All Fee Types</option>
-    <option value="Tuition">Tuition</option>
-    <option value="Transport">Transport</option>
-    <option value="Exam">Exam</option>
-    <option value="Other">Other</option>
-  </select>
-
-  <select
-    value={paymentMethod}
-    onChange={(e) => {
-      setPaymentMethod(e.target.value);
-      setPage(1);
-    }}
-  >
-    <option value="">All Payment Methods</option>
-    <option value="Cash">Cash</option>
-    <option value="Bank">Bank</option>
-    <option value="Cheque">Cheque</option>
-  </select>
-  <button
-  type="button"
-  onClick={() => {
-    setSearch("");
-    setFeeType("");
-    setPaymentMethod("");
-    setPage(1);
-  }}
->
-  Clear Filters
-</button>
-</div>
-
-      <h2>Payment History</h2>
-
-{paymentsLoading ? (
-  <p>Loading payments...</p>
-) : payments.length === 0 ? (
-  <p>No payments found.</p>
-) : (
-  <table>
-    <thead>
-      <tr>
-        <th>Student</th>
-        <th>Fee Type</th>
-        <th>Amount</th>
-        <th>Payment Method</th>
-        <th>Receipt</th>
-        <th>Date</th>
-        <th>Remarks</th>
-      </tr>
-    </thead>
-
-    <tbody>
-      {payments.map((payment) => (
-        <tr key={payment._id}>
-          <td>
-            {payment.student?.studentId} -{" "}
-            {payment.student?.name}
-          </td>
-
-          <td>{payment.feeType}</td>
-
-          <td>Rs. {payment.amount}</td>
-
-          <td>{payment.paymentMethod}</td>
-
-          <td>{payment.receiptNumber}</td>
-
-          <td>
-            {new Date(payment.paymentDate).toLocaleDateString()}
-          </td>
-
-          <td>{payment.remarks || "-"}</td>
-        </tr>
-      ))}
-    </tbody>
-  </table>
-)}
-
-<div>
-  <button
-    onClick={() => setPage(page - 1)}
-    disabled={page === 1}
-  >
-    Previous
-  </button>
-
-  <span>
-    Page {page} of {totalPages}
-  </span>
-
-  <button
-    onClick={() => setPage(page + 1)}
-    disabled={page === totalPages}
-  >
-    Next
-  </button>
-</div>
     </div>
-  );
+
+    <div className="payment-history-card">
+      <div className="section-title">
+        <h2>Payment History</h2>
+        <p>View and filter recorded payments</p>
+      </div>
+
+      <div className="payment-filters">
+        <input
+          type="text"
+          placeholder="Search student..."
+          value={search}
+          onChange={(e) => {
+            setSearch(e.target.value);
+            setPage(1);
+          }}
+        />
+
+        <select
+          value={feeType}
+          onChange={(e) => {
+            setFeeType(e.target.value);
+            setPage(1);
+          }}
+        >
+          <option value="">All Fee Types</option>
+          <option value="Tuition">Tuition</option>
+          <option value="Transport">Transport</option>
+          <option value="Exam">Exam</option>
+          <option value="Other">Other</option>
+        </select>
+
+        <select
+          value={paymentMethod}
+          onChange={(e) => {
+            setPaymentMethod(e.target.value);
+            setPage(1);
+          }}
+        >
+          <option value="">All Payment Methods</option>
+          <option value="Cash">Cash</option>
+          <option value="Bank">Bank</option>
+          <option value="Cheque">Cheque</option>
+        </select>
+
+        <button
+          type="button"
+          className="clear-filter-btn"
+          onClick={() => {
+            setSearch("");
+            setFeeType("");
+            setPaymentMethod("");
+            setPage(1);
+          }}
+        >
+          Clear Filters
+        </button>
+      </div>
+
+      {paymentsLoading ? (
+        <p className="table-message">Loading payments...</p>
+      ) : payments.length === 0 ? (
+        <p className="table-message">No payments found.</p>
+      ) : (
+        <>
+          <div className="table-wrapper">
+            <table className="payments-table">
+              <thead>
+                <tr>
+                  <th>Student</th>
+                  <th>Fee Type</th>
+                  <th>Amount</th>
+                  <th>Payment Method</th>
+                  <th>Receipt</th>
+                  <th>Date</th>
+                  <th>Remarks</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {payments.map((payment) => (
+                  <tr key={payment._id}>
+                    <td className="student-name">
+                      {payment.student?.studentId} -{" "}
+                      {payment.student?.name}
+                    </td>
+
+                    <td>
+                      <span className="fee-type-badge">
+                        {payment.feeType}
+                      </span>
+                    </td>
+
+                    <td className="amount-cell">
+                      Rs. {payment.amount}
+                    </td>
+
+                    <td>{payment.paymentMethod}</td>
+
+                    <td>
+                      <span className="receipt-badge">
+                        {payment.receiptNumber}
+                      </span>
+                    </td>
+
+                    <td>
+                      {new Date(
+                        payment.paymentDate
+                      ).toLocaleDateString()}
+                    </td>
+
+                    <td>{payment.remarks || "-"}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          <div className="pagination">
+            <button
+              onClick={() => setPage(page - 1)}
+              disabled={page === 1}
+            >
+              Previous
+            </button>
+
+            <span>
+              Page <strong>{page}</strong> of{" "}
+              <strong>{totalPages}</strong>
+            </span>
+
+            <button
+              onClick={() => setPage(page + 1)}
+              disabled={page === totalPages}
+            >
+              Next
+            </button>
+          </div>
+        </>
+      )}
+    </div>
+  </div>
+);
 }
 
 export default Payments;

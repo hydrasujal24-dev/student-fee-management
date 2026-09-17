@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import api from "../../services/api";
+import "./Fees.css";
 
 function Fees() {
   const [students, setStudents] = useState([]);
@@ -164,150 +165,186 @@ function Fees() {
     (Number(formData.examFee) || 0) +
     (Number(formData.otherFee) || 0);
 
-  return (
-    <div>
-      <h1>Fee Management</h1>
-      <p>Manage student fee structures</p>
+ return (
+  <div className="fees-page">
+    <div className="page-header">
+      <div>
+        <h1>Fee Management</h1>
+        <p>Manage student fee structures</p>
+      </div>
+    </div>
 
-      {message && <p>{message}</p>}
-      {error && <p>{error}</p>}
+    {message && (
+      <div className="success-message">
+        {message}
+      </div>
+    )}
+
+    {error && (
+      <div className="error-message">
+        {error}
+      </div>
+    )}
+
+    <div className="fee-form-card">
+      <div className="section-title">
+        <h2>Add Fee Structure</h2>
+        <p>Set the fee structure for a student</p>
+      </div>
 
       <form onSubmit={handleSubmit}>
-        <div>
-          <label>Student</label>
+        <div className="fee-form-grid">
+          <div className="form-group full-width">
+            <label>Student</label>
 
-          <select
-            value={selectedStudent}
-            onChange={(e) => setSelectedStudent(e.target.value)}
-            required
-            disabled={editingFee !== null}
-          >
-            <option value="">Select Student</option>
+            <select
+              value={selectedStudent}
+              onChange={(e) =>
+                setSelectedStudent(e.target.value)
+              }
+              required
+            >
+              <option value="">Select Student</option>
 
-            {students.map((student) => (
-              <option key={student._id} value={student._id}>
-                {student.studentId} - {student.name}
-              </option>
-            ))}
-          </select>
+              {students.map((student) => (
+                <option
+                  key={student._id}
+                  value={student._id}
+                >
+                  {student.studentId} - {student.name}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className="form-group">
+            <label>Tuition Fee</label>
+            <input
+              type="number"
+              name="tuitionFee"
+              value={formData.tuitionFee}
+              onChange={handleChange}
+              min="0"
+              placeholder="0"
+            />
+          </div>
+
+          <div className="form-group">
+            <label>Transport Fee</label>
+            <input
+              type="number"
+              name="transportFee"
+              value={formData.transportFee}
+              onChange={handleChange}
+              min="0"
+              placeholder="0"
+            />
+          </div>
+
+          <div className="form-group">
+            <label>Exam Fee</label>
+            <input
+              type="number"
+              name="examFee"
+              value={formData.examFee}
+              onChange={handleChange}
+              min="0"
+              placeholder="0"
+            />
+          </div>
+
+          <div className="form-group">
+            <label>Other Fee</label>
+            <input
+              type="number"
+              name="otherFee"
+              value={formData.otherFee}
+              onChange={handleChange}
+              min="0"
+              placeholder="0"
+            />
+          </div>
         </div>
 
-        <div>
-          <label>Tuition Fee</label>
-          <input
-            type="number"
-            name="tuitionFee"
-            value={formData.tuitionFee}
-            onChange={handleChange}
-            min="0"
-          />
+        <div className="fee-total">
+          <span>Total Fee</span>
+          <strong>Rs. {total}</strong>
         </div>
 
-        <div>
-          <label>Transport Fee</label>
-          <input
-            type="number"
-            name="transportFee"
-            value={formData.transportFee}
-            onChange={handleChange}
-            min="0"
-          />
-        </div>
-
-        <div>
-          <label>Exam Fee</label>
-          <input
-            type="number"
-            name="examFee"
-            value={formData.examFee}
-            onChange={handleChange}
-            min="0"
-          />
-        </div>
-
-        <div>
-          <label>Other Fee</label>
-          <input
-            type="number"
-            name="otherFee"
-            value={formData.otherFee}
-            onChange={handleChange}
-            min="0"
-          />
-        </div>
-
-        <h3>Total Fee: Rs. {total}</h3>
-
-        <button type="submit" disabled={loading}>
-          {loading
-            ? "Saving..."
-            : editingFee
-              ? "Update Fee Structure"
-              : "Save Fee Structure"}
-        </button>
-
-        {editingFee && (
+        <div className="form-actions">
           <button
-            type="button"
-            onClick={() => {
-              setEditingFee(null);
-              setSelectedStudent("");
-              setFormData({
-                tuitionFee: "",
-                transportFee: "",
-                examFee: "",
-                otherFee: "",
-              });
-              setMessage("");
-              setError("");
-            }}
+            type="submit"
+            className="primary-btn"
+            disabled={loading}
           >
-            Cancel Edit
+            {loading
+              ? "Saving..."
+              : "Save Fee Structure"}
           </button>
-        )}
+        </div>
       </form>
+    </div>
 
-      <h2>Existing Fee Structures</h2>
+    <div className="fee-list-card">
+      <div className="section-title">
+        <h2>Existing Fee Structures</h2>
+        <p>View currently assigned student fees</p>
+      </div>
 
       {feesLoading ? (
-        <p>Loading fee structures...</p>
+        <p className="table-message">
+          Loading fee structures...
+        </p>
       ) : fees.length === 0 ? (
-        <p>No fee structures found.</p>
+        <p className="table-message">
+          No fee structures found.
+        </p>
       ) : (
-        <table>
-          <thead>
-            <tr>
-              <th>Student</th>
-              <th>Tuition</th>
-              <th>Transport</th>
-              <th>Exam</th>
-              <th>Other</th>
-              <th>Total</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {fees.map((fee) => (
-              <tr key={fee._id}>
-                <td>
-                  {fee.student?.studentId} - {fee.student?.name}
-                </td>
-                <td>Rs. {fee.tuitionFee}</td>
-                <td>Rs. {fee.transportFee}</td>
-                <td>Rs. {fee.examFee}</td>
-                <td>Rs. {fee.otherFee}</td>
-                <td>Rs. {fee.totalFee}</td>
-                <td>
-                  <button onClick={() => handleEdit(fee)}>Edit</button>
-                </td>
+        <div className="table-wrapper">
+          <table className="fees-table">
+            <thead>
+              <tr>
+                <th>Student</th>
+                <th>Tuition</th>
+                <th>Transport</th>
+                <th>Exam</th>
+                <th>Other</th>
+                <th>Total</th>
+                <th>Action</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+
+            <tbody>
+              {fees.map((fee) => (
+                <tr key={fee._id}>
+                  <td className="student-name">
+                    {fee.student?.studentId} -{" "}
+                    {fee.student?.name}
+                  </td>
+
+                  <td>Rs. {fee.tuitionFee}</td>
+                  <td>Rs. {fee.transportFee}</td>
+                  <td>Rs. {fee.examFee}</td>
+                  <td>Rs. {fee.otherFee}</td>
+
+                  <td className="total-cell">
+                    Rs. {fee.totalFee}
+                  </td>
+
+                  <td>
+                    <button className="edit-btn">
+                      Edit
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       )}
     </div>
-  );
+  </div>
+);
 }
 
 export default Fees;
