@@ -12,6 +12,9 @@ function Payments() {
     remarks: "",
   });
 
+  const [payments, setPayments] = useState([]);
+  const [paymentsLoading, setPaymentsLoading] = useState(true);
+
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
@@ -41,6 +44,36 @@ function Payments() {
 
     fetchStudents();
   }, []);
+
+  useEffect(() => {
+  const fetchPayments = async () => {
+    try {
+      setPaymentsLoading(true);
+
+      const token = localStorage.getItem("token");
+
+      const response = await api.get("/payments", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        params: {
+          limit: 100,
+        },
+      });
+
+      setPayments(response.data.payments || response.data);
+    } catch (err) {
+      setError(
+        err.response?.data?.message ||
+          "Failed to load payments"
+      );
+    } finally {
+      setPaymentsLoading(false);
+    }
+  };
+
+  fetchPayments();
+}, []);
 
   const handleChange = (e) => {
     setFormData({
@@ -78,6 +111,19 @@ function Payments() {
       setMessage(
         `Payment recorded successfully. Receipt: ${response.data.payment.receiptNumber}`
       );
+
+      const paymentsResponse = await api.get("/payments", {
+  headers: {
+    Authorization: `Bearer ${token}`,
+  },
+  params: {
+    limit: 100,
+  },
+});
+
+setPayments(
+  paymentsResponse.data.payments || paymentsResponse.data
+);
 
       setSelectedStudent("");
 
@@ -190,6 +236,53 @@ function Payments() {
           {loading ? "Recording..." : "Record Payment"}
         </button>
       </form>
+
+      <h2>Payment History</h2>
+
+{paymentsLoading ? (
+  <p>Loading payments...</p>
+) : payments.length === 0 ? (
+  <p>No payments found.</p>
+) : (
+  <table>
+    <thead>
+      <tr>
+        <th>Student</th>
+        <th>Fee Type</th>
+        <th>Amount</th>
+        <th>Payment Method</th>
+        <th>Receipt</th>
+        <th>Date</th>
+        <th>Remarks</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {payments.map((payment) => (
+        <tr key={payment._id}>
+          <td>
+            {payment.student?.studentId} -{" "}
+            {payment.student?.name}
+          </td>
+
+          <td>{payment.feeType}</td>
+
+          <td>Rs. {payment.amount}</td>
+
+          <td>{payment.paymentMethod}</td>
+
+          <td>{payment.receiptNumber}</td>
+
+          <td>
+            {new Date(payment.paymentDate).toLocaleDateString()}
+          </td>
+
+          <td>{payment.remarks || "-"}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+)}
     </div>
   );
 }
