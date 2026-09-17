@@ -50,6 +50,13 @@ const generateReceipt = async (req, res) => {
       0
     );
 
+    const paymentDate = new Date(
+      payment.paymentDate
+    ).toLocaleDateString();
+
+    const formatAmount = (amount) =>
+      `Rs. ${amount.toLocaleString()}`;
+
     res.setHeader(
       "Content-Type",
       "application/pdf"
@@ -67,99 +74,198 @@ const generateReceipt = async (req, res) => {
 
     doc.pipe(res);
 
-    // Header
+    // =========================
+    // HEADER
+    // =========================
+
     doc
-      .fontSize(22)
+      .fontSize(20)
+      .font("Helvetica-Bold")
       .text("STUDENT FEE MANAGEMENT SYSTEM", {
         align: "center",
       });
 
     doc
-      .moveDown()
-      .fontSize(18)
+      .moveDown(0.4)
+      .fontSize(15)
+      .font("Helvetica")
       .text("PAYMENT RECEIPT", {
         align: "center",
       });
 
-    doc.moveDown();
+    doc.moveDown(1);
+
+    // Header line
+    doc
+      .moveTo(50, doc.y)
+      .lineTo(545, doc.y)
+      .stroke();
+
+    doc.moveDown(1);
+
+    // =========================
+    // RECEIPT DETAILS
+    // =========================
 
     doc
-      .fontSize(11)
-      .text(`Receipt Number: ${payment.receiptNumber}`);
+      .fontSize(10)
+      .font("Helvetica-Bold")
+      .text("Receipt Number:", 50, doc.y, {
+        continued: true,
+      });
 
-    doc.text(
-      `Payment Date: ${new Date(
-        payment.paymentDate
-      ).toLocaleDateString()}`
-    );
+    doc
+      .font("Helvetica")
+      .text(` ${payment.receiptNumber}`);
 
-    doc.moveDown();
+    doc
+      .font("Helvetica-Bold")
+      .text("Payment Date:", 50, doc.y, {
+        continued: true,
+      });
 
-    // Student information
-    doc.fontSize(14).text("Student Information");
+    doc
+      .font("Helvetica")
+      .text(` ${paymentDate}`);
+
+    doc.moveDown(1.2);
+
+    // =========================
+    // STUDENT INFORMATION
+    // =========================
+
+    doc
+      .fontSize(13)
+      .font("Helvetica-Bold")
+      .text("Student Information");
 
     doc.moveDown(0.5);
 
     doc
-      .fontSize(11)
-      .text(`Student ID: ${payment.student.studentId}`);
-
-    doc.text(`Name: ${payment.student.name}`);
+      .fontSize(10)
+      .font("Helvetica")
+      .text(
+        `Student ID: ${payment.student.studentId}`
+      );
 
     doc.text(
-      `Class: ${payment.student.className} - Section ${payment.student.section}`
+      `Name: ${payment.student.name}`
     );
 
-    doc.text(`Email: ${payment.student.email}`);
+    doc.text(
+      `Class: ${payment.student.className || "-"}  |  Section: ${
+        payment.student.section || "-"
+      }`
+    );
 
-    doc.moveDown();
+    doc.text(
+      `Email: ${payment.student.email || "-"}`
+    );
 
-    // Payment information
-    doc.fontSize(14).text("Payment Information");
+    if (payment.student.phone) {
+      doc.text(
+        `Phone: ${payment.student.phone}`
+      );
+    }
+
+    doc.moveDown(1.2);
+
+    // =========================
+    // PAYMENT INFORMATION
+    // =========================
+
+    doc
+      .fontSize(13)
+      .font("Helvetica-Bold")
+      .text("Payment Information");
 
     doc.moveDown(0.5);
 
     doc
-      .fontSize(11)
-      .text(`Fee Type: ${payment.feeType}`);
+      .fontSize(10)
+      .font("Helvetica")
+      .text(
+        `Fee Type: ${payment.feeType}`
+      );
 
     doc.text(
       `Payment Method: ${payment.paymentMethod}`
     );
 
     doc.text(
-      `Amount Paid: Rs. ${payment.amount.toLocaleString()}`
+      `Amount Paid: ${formatAmount(payment.amount)}`
     );
 
     if (payment.remarks) {
-      doc.text(`Remarks: ${payment.remarks}`);
+      doc.text(
+        `Remarks: ${payment.remarks}`
+      );
     }
 
-    doc.moveDown();
+    doc.moveDown(1.2);
 
-    // Balance
-    doc.fontSize(14).text("Fee Summary");
+    // =========================
+    // FEE SUMMARY
+    // =========================
+
+    doc
+      .fontSize(13)
+      .font("Helvetica-Bold")
+      .text("Fee Summary");
 
     doc.moveDown(0.5);
 
     doc
-      .fontSize(11)
+      .fontSize(10)
+      .font("Helvetica")
       .text(
-        `Total Fee: Rs. ${totalFee.toLocaleString()}`
+        `Total Fee: ${formatAmount(totalFee)}`
       );
 
     doc.text(
-      `Total Paid: Rs. ${totalPaid.toLocaleString()}`
+      `Total Paid: ${formatAmount(totalPaid)}`
     );
 
-    doc.text(
-      `Outstanding Balance: Rs. ${outstanding.toLocaleString()}`
-    );
+    doc
+      .font("Helvetica-Bold")
+      .text(
+        `Outstanding Balance: ${formatAmount(outstanding)}`
+      );
+
+    doc.moveDown(2);
+
+    // =========================
+    // PAYMENT STATUS
+    // =========================
+
+    const status =
+      outstanding === 0
+        ? "PAID IN FULL"
+        : "PARTIALLY PAID";
+
+    doc
+      .fontSize(12)
+      .font("Helvetica-Bold")
+      .text(`Payment Status: ${status}`, {
+        align: "center",
+      });
 
     doc.moveDown(3);
 
+    // =========================
+    // FOOTER
+    // =========================
+
     doc
-      .fontSize(10)
+      .moveTo(50, doc.y)
+      .lineTo(545, doc.y)
+      .stroke();
+
+    doc.moveDown(1);
+
+    doc
+      .fontSize(9)
+      .font("Helvetica")
       .text(
         "This is a computer-generated payment receipt.",
         {
@@ -167,12 +273,11 @@ const generateReceipt = async (req, res) => {
         }
       );
 
-    doc.text(
-      "Thank you.",
-      {
+    doc
+      .moveDown(0.3)
+      .text("Thank you.", {
         align: "center",
-      }
-    );
+      });
 
     doc.end();
   } catch (error) {
