@@ -85,3 +85,120 @@
     padding: 20px;
   }
 }
+
+/* Dashboard Actions */
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.dashboard-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.dashboard-action-btn {
+  border: 1px solid #d1d5db;
+  background: white;
+  color: #374151;
+  padding: 10px 14px;
+  border-radius: 7px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.dashboard-action-btn:hover {
+  background: #f3f4f6;
+}
+
+.dashboard-action-btn.primary {
+  border-color: #2563eb;
+  background: #2563eb;
+  color: white;
+}
+
+.dashboard-action-btn.primary:hover {
+  background: #1d4ed8;
+}
+
+/* Clickable Statistics */
+
+.stat-card-button {
+  width: 100%;
+  border: 1px solid #e5e7eb;
+  text-align: left;
+  font-family: inherit;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.stat-card-button:hover {
+  transform: translateY(-2px);
+  border-color: #bfdbfe;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+}
+
+.stat-card-button span {
+  display: block;
+  margin-top: 10px;
+  color: #2563eb;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* Recent Payments Header */
+
+.recent-payments-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+}
+
+.recent-payments-header h2 {
+  margin: 0;
+}
+
+.view-all-btn {
+  border: none;
+  background: transparent;
+  color: #2563eb;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.view-all-btn:hover {
+  color: #1d4ed8;
+}
+
+@media (max-width: 900px) {
+  .dashboard-header {
+    flex-direction: column;
+  }
+
+  .dashboard-actions {
+    width: 100%;
+  }
+}
+
+@media (max-width: 600px) {
+  .dashboard-actions {
+    flex-direction: column;
+  }
+
+  .dashboard-action-btn {
+    width: 100%;
+  }
+
+  .recent-payments-header {
+    align-items: flex-start;
+    gap: 10px;
+  }
+}

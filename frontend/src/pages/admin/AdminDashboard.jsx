@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import api from "../../services/api";
 import "./AdminDashboard.css";
 
 function AdminDashboard() {
   const [dashboard, setDashboard] = useState(null);
   const [error, setError] = useState("");
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchDashboard = async () => {
@@ -42,41 +45,97 @@ function AdminDashboard() {
   return (
     <div className="dashboard">
       <div className="dashboard-header">
-        <h1>Admin Dashboard</h1>
-        <p>Overview of your student fee management system</p>
+        <div>
+          <h1>Admin Dashboard</h1>
+          <p>
+            Overview of your student fee management system
+          </p>
+        </div>
+
+        <div className="dashboard-actions">
+          <button
+            className="dashboard-action-btn primary"
+            onClick={() => navigate("/admin/students/add")}
+          >
+            + Add Student
+          </button>
+
+          <button
+            className="dashboard-action-btn"
+            onClick={() => navigate("/admin/fees")}
+          >
+            Manage Fees
+          </button>
+
+          <button
+            className="dashboard-action-btn"
+            onClick={() => navigate("/admin/payments")}
+          >
+            Record Payment
+          </button>
+        </div>
       </div>
 
       <h2>Overview</h2>
 
       <div className="stats-grid">
-        <div className="stat-card">
+        <button
+          className="stat-card stat-card-button"
+          onClick={() => navigate("/admin/students")}
+        >
           <h3>Total Students</h3>
           <p>{statistics.totalStudents}</p>
-        </div>
+          <span>View students →</span>
+        </button>
 
-        <div className="stat-card">
+        <button
+          className="stat-card stat-card-button"
+          onClick={() => navigate("/admin/fees")}
+        >
           <h3>Total Fees</h3>
           <p>Rs. {statistics.totalFee}</p>
-        </div>
+          <span>Manage fees →</span>
+        </button>
 
-        <div className="stat-card">
+        <button
+          className="stat-card stat-card-button"
+          onClick={() => navigate("/admin/payments")}
+        >
           <h3>Total Collection</h3>
           <p>Rs. {statistics.totalCollection}</p>
-        </div>
+          <span>View payments →</span>
+        </button>
 
-        <div className="stat-card">
+        <button
+          className="stat-card stat-card-button"
+          onClick={() => navigate("/admin/payments")}
+        >
           <h3>Total Pending</h3>
           <p>Rs. {statistics.totalPending}</p>
-        </div>
+          <span>View payments →</span>
+        </button>
 
-        <div className="stat-card">
+        <button
+          className="stat-card stat-card-button"
+          onClick={() => navigate("/admin/payments")}
+        >
           <h3>Today's Collection</h3>
           <p>Rs. {statistics.todayCollection}</p>
-        </div>
+          <span>View payments →</span>
+        </button>
       </div>
 
       <div className="recent-payments">
-        <h2>Recent Payments</h2>
+        <div className="recent-payments-header">
+          <h2>Recent Payments</h2>
+
+          <button
+            className="view-all-btn"
+            onClick={() => navigate("/admin/payments")}
+          >
+            View All
+          </button>
+        </div>
 
         {recentPayments.length === 0 ? (
           <p>No recent payments.</p>
@@ -95,10 +154,17 @@ function AdminDashboard() {
             <tbody>
               {recentPayments.map((payment) => (
                 <tr key={payment._id}>
-                 <td>{payment.student?.name || "Unknown Student"}</td>
+                  <td>
+                    {payment.student?.name ||
+                      "Unknown Student"}
+                  </td>
+
                   <td>{payment.feeType}</td>
+
                   <td>Rs. {payment.amount}</td>
+
                   <td>{payment.paymentMethod}</td>
+
                   <td>{payment.receiptNumber}</td>
                 </tr>
               ))}
