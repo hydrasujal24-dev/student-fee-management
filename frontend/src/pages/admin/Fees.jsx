@@ -94,22 +94,42 @@ function Fees() {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    try {
+  setMessage("");
+  setError("");
+
+  if (!selectedStudent) {
+    setError("Please select a student.");
+    return;
+  }
+
+  const feeData = {
+    tuitionFee: Number(formData.tuitionFee) || 0,
+    transportFee: Number(formData.transportFee) || 0,
+    examFee: Number(formData.examFee) || 0,
+    otherFee: Number(formData.otherFee) || 0,
+  };
+
+  const totalFee =
+    feeData.tuitionFee +
+    feeData.transportFee +
+    feeData.examFee +
+    feeData.otherFee;
+
+  if (totalFee <= 0) {
+    setError("At least one fee amount must be greater than Rs. 0.");
+    return;
+  }
+
+  try {
       setLoading(true);
       setMessage("");
       setError("");
 
       const token = localStorage.getItem("token");
 
-      const feeData = {
-        tuitionFee: Number(formData.tuitionFee) || 0,
-        transportFee: Number(formData.transportFee) || 0,
-        examFee: Number(formData.examFee) || 0,
-        otherFee: Number(formData.otherFee) || 0,
-      };
-
+      
       if (editingFee) {
         await api.put(`/fees/student/${editingFee.student._id}`, feeData, {
           headers: {
