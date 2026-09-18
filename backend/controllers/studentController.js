@@ -357,7 +357,7 @@ const updateStudent = async (req, res) => {
 // Delete Student
 const deleteStudent = async (req, res) => {
   try {
-    const student = await Student.findByIdAndDelete(req.params.id);
+    const student = await Student.findById(req.params.id);
 
     if (!student) {
       return res.status(404).json({
@@ -365,8 +365,16 @@ const deleteStudent = async (req, res) => {
       });
     }
 
+    // Find and remove the linked student login account
+    await User.findOneAndDelete({
+      student: student._id,
+    });
+
+    // Delete the student record
+    await Student.findByIdAndDelete(student._id);
+
     res.status(200).json({
-      message: "Student deleted successfully",
+      message: "Student and linked account deleted successfully",
     });
   } catch (error) {
     res.status(500).json({
