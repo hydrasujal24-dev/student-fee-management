@@ -148,9 +148,58 @@ const getStudent = async (req, res) => {
 // Update Student
 const updateStudent = async (req, res) => {
   try {
+    const {
+      studentId,
+      name,
+      email,
+      phone,
+      address,
+      className,
+      section,
+      parentName,
+      parentPhone,
+    } = req.body;
+
+    if (
+      !studentId ||
+      !name ||
+      !email ||
+      !phone ||
+      !address ||
+      !className ||
+      !section ||
+      !parentName ||
+      !parentPhone
+    ) {
+      return res.status(400).json({
+        message: "Please provide all required fields",
+      });
+    }
+
+    const existingStudent = await Student.findOne({
+      $or: [{ studentId }, { email }],
+      _id: { $ne: req.params.id },
+    });
+
+    if (existingStudent) {
+      return res.status(400).json({
+        message: "Student ID or email already exists",
+      });
+    }
+
     const student = await Student.findByIdAndUpdate(
       req.params.id,
-      req.body,
+      {
+        studentId,
+        name,
+        email,
+        phone,
+        address,
+        className,
+        section,
+        parentName,
+        parentPhone,
+      },
       {
         new: true,
         runValidators: true,
