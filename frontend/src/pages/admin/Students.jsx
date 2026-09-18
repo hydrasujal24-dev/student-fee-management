@@ -520,6 +520,15 @@ function Students() {
                       <td>
                         <div className="student-actions">
                           <button
+                            className="view-btn"
+                            onClick={() =>
+                              navigate(`/admin/students/${student._id}`)
+                            }
+                          >
+                            View
+                          </button>
+
+                          <button
                             className="edit-btn"
                             onClick={() => handleEdit(student)}
                           >

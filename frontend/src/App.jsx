@@ -11,6 +11,7 @@ import Fees from "./pages/admin/Fees";
 import Payments from "./pages/admin/Payments";
 
 import ProtectedRoute from "./components/ProtectedRoute";
+import StudentDetails from "./pages/admin/StudentDetails";
 
 function App() {
   return (
@@ -44,6 +45,11 @@ function App() {
               path="/admin/students/add"
               element={<AddStudent />}
             />
+           
+           <Route
+  path="/admin/students/:id"
+  element={<StudentDetails />}
+/>
 
             <Route
               path="/admin/fees"

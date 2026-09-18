@@ -1,5 +1,7 @@
 const Student = require("../models/Student");
 const User = require("../models/User");
+const Fee = require("../models/Fee");
+const Payment = require("../models/Payment");
 
 // Add Student
 const addStudent = async (req, res) => {
@@ -163,6 +165,86 @@ const getStudent = async (req, res) => {
   }
 };
 
+// Get Student Details with Fee and Payment Information
+const getStudentDetails = async (req, res) => {
+  try {
+    const student = await Student.findById(req.params.id);
+
+    if (!student) {
+      return res.status(404).json({
+        message: "Student not found",
+      });
+    }
+
+    const fee = await Fee.findOne({
+      student: student._id,
+    });
+
+    const payments = await Payment.find({
+      student: student._id,
+    }).sort({
+      paymentDate: -1,
+    });
+
+    const totalPaid = payments.reduce(
+      (total, payment) => total + payment.amount,
+      0
+    );
+
+    const totalFee = fee ? fee.totalFee : 0;
+
+    const outstanding = Math.max(
+      totalFee - totalPaid,
+      0
+    );
+
+    const user = await User.findOne({
+      student: student._id,
+      role: "student",
+    }).select("email name role");
+
+    res.status(200).json({
+      student: {
+        id: student._id,
+        studentId: student.studentId,
+        name: student.name,
+        email: student.email,
+        phone: student.phone,
+        address: student.address,
+        className: student.className,
+        section: student.section,
+        parentName: student.parentName,
+        parentPhone: student.parentPhone,
+        hasAccount: !!user,
+        accountEmail: user ? user.email : null,
+      },
+
+      fee: fee
+        ? {
+            tuitionFee: fee.tuitionFee,
+            transportFee: fee.transportFee,
+            examFee: fee.examFee,
+            otherFee: fee.otherFee,
+            totalFee: fee.totalFee,
+          }
+        : null,
+
+      feeSummary: {
+        totalFee,
+        totalPaid,
+        outstanding,
+      },
+
+      payments,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Server error",
+      error: error.message,
+    });
+  }
+};
+
 // Update Student
 const updateStudent = async (req, res) => {
   try {
@@ -298,6 +380,7 @@ module.exports = {
   addStudent,
   getStudents,
   getStudent,
+  getStudentDetails,
   updateStudent,
   deleteStudent,
 };

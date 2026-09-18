@@ -6,6 +6,7 @@ const {
   addStudent,
   getStudents,
   getStudent,
+  getStudentDetails,
   updateStudent,
   deleteStudent,
 } = require("../controllers/studentController");
@@ -28,10 +29,25 @@ router.post(
 
 router.get("/", protect, adminOnly, getStudents);
 
+router.get(
+  "/:id/details",
+  protect,
+  adminOnly,
+  getStudentDetails
+);
+
+
 router.get("/:id", protect, adminOnly, getStudent);
 
 router.put("/:id", protect, adminOnly, updateStudent);
 
 router.delete("/:id", protect, adminOnly, deleteStudent);
+
+router.get(
+  "/:id/details",
+  protect,
+  adminOnly,
+  getStudentDetails
+);
 
 module.exports = router;

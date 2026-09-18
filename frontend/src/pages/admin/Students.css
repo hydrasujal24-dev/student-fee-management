@@ -548,3 +548,18 @@
     width: 100%;
   }
 }
+
+.view-btn {
+  border: none;
+  background: #f3f4f6;
+  color: #374151;
+  padding: 7px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.view-btn:hover {
+  background: #e5e7eb;
+}

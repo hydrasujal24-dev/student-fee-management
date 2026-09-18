@@ -1,0 +1,260 @@
+.student-details-page {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.details-header {
+  margin-bottom: 24px;
+}
+
+.details-header h1 {
+  margin: 12px 0 0;
+  font-size: 30px;
+  color: #111827;
+}
+
+.details-header p {
+  margin: 6px 0 0;
+  color: #6b7280;
+}
+
+.back-btn {
+  border: none;
+  background: transparent;
+  padding: 0;
+  color: #2563eb;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.back-btn:hover {
+  color: #1d4ed8;
+}
+
+.details-card {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 24px;
+  margin-bottom: 24px;
+}
+
+.card-title,
+.card-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+}
+
+.card-title {
+  padding-bottom: 20px;
+  border-bottom: 1px solid #f1f5f9;
+  margin-bottom: 20px;
+}
+
+.card-title h2,
+.card-heading h2 {
+  margin: 0;
+  color: #111827;
+  font-size: 20px;
+}
+
+.card-title p {
+  margin: 5px 0 0;
+  color: #6b7280;
+  font-size: 13px;
+}
+
+.card-heading {
+  margin-bottom: 20px;
+}
+
+.card-heading > span {
+  color: #6b7280;
+  font-size: 13px;
+}
+
+.account-badge {
+  padding: 6px 10px;
+  border-radius: 6px;
+  background: #f3f4f6;
+  color: #6b7280;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.account-badge.active {
+  background: #ecfdf5;
+  color: #059669;
+}
+
+.student-info-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.student-info-grid div {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.student-info-grid span,
+.summary-card span,
+.fee-breakdown span {
+  color: #6b7280;
+  font-size: 12px;
+}
+
+.student-info-grid strong {
+  color: #111827;
+  font-size: 14px;
+  word-break: break-word;
+}
+
+.details-section-title {
+  margin: 30px 0 16px;
+  color: #111827;
+  font-size: 20px;
+}
+
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+  margin-bottom: 24px;
+}
+
+.summary-card {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.summary-card strong {
+  display: block;
+  margin-top: 7px;
+  color: #111827;
+  font-size: 24px;
+}
+
+.outstanding-summary {
+  border-color: #fed7aa;
+}
+
+.outstanding-summary strong {
+  color: #ea580c;
+}
+
+.fee-breakdown {
+  display: flex;
+  flex-direction: column;
+}
+
+.fee-breakdown > div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 13px 0;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.fee-breakdown strong {
+  color: #111827;
+  font-size: 14px;
+}
+
+.fee-breakdown .fee-total {
+  border-bottom: none;
+  padding-bottom: 0;
+  margin-top: 4px;
+}
+
+.fee-total span,
+.fee-total strong {
+  font-size: 15px;
+  font-weight: 700;
+  color: #111827;
+}
+
+.details-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.details-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.details-table th {
+  background: #f9fafb;
+  color: #6b7280;
+  text-align: left;
+  padding: 13px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.details-table td {
+  padding: 14px;
+  border-bottom: 1px solid #f1f5f9;
+  color: #374151;
+  font-size: 13px;
+}
+
+.details-table tbody tr:hover {
+  background: #f9fafb;
+}
+
+.receipt-number {
+  color: #2563eb;
+  font-weight: 600;
+}
+
+.payment-amount {
+  font-weight: 600;
+  color: #111827 !important;
+}
+
+.empty-message,
+.details-loading {
+  color: #6b7280;
+  text-align: center;
+  padding: 25px 0;
+}
+
+.details-error {
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #b91c1c;
+  padding: 12px 14px;
+  border-radius: 8px;
+}
+
+@media (max-width: 800px) {
+  .student-info-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .summary-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .student-info-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .card-title,
+  .card-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
