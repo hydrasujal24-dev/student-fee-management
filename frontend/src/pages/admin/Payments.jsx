@@ -133,6 +133,14 @@ function Payments() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+const confirmed = window.confirm(
+  "Are you sure you want to record this payment?"
+);
+
+if (!confirmed) {
+  return;
+}
+
     try {
       setLoading(true);
       setMessage("");

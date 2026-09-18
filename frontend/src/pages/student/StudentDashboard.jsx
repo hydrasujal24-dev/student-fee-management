@@ -121,22 +121,54 @@ const handleDownloadReceipt = async (paymentId) => {
 
       <h2 className="section-title">Fee Summary</h2>
 
-      <div className="fee-summary-grid">
-        <div className="fee-card">
-          <p>Total Fee</p>
-          <h3>Rs. {feeSummary.totalFee}</h3>
-        </div>
+<div className="fee-summary-grid">
+  <div className="fee-card">
+    <p>Total Fee</p>
+    <h3>Rs. {feeSummary.totalFee}</h3>
+  </div>
 
-        <div className="fee-card">
-          <p>Total Paid</p>
-          <h3>Rs. {feeSummary.totalPaid}</h3>
-        </div>
+  <div className="fee-card">
+    <p>Total Paid</p>
+    <h3>Rs. {feeSummary.totalPaid}</h3>
+  </div>
 
-        <div className="fee-card outstanding-card">
-          <p>Outstanding</p>
-          <h3>Rs. {feeSummary.outstanding}</h3>
-        </div>
-      </div>
+  <div className="fee-card outstanding-card">
+    <p>Outstanding</p>
+    <h3>Rs. {feeSummary.outstanding}</h3>
+  </div>
+</div>
+
+<div className="fee-breakdown-card">
+  <div className="breakdown-header">
+    <div>
+      <h2>Fee Breakdown</h2>
+      <p>Your assigned fee structure</p>
+    </div>
+  </div>
+
+  <div className="breakdown-list">
+    <div className="breakdown-row">
+      <span>Tuition Fee</span>
+      <strong>Rs. {feeSummary.tuitionFee || 0}</strong>
+    </div>
+
+    <div className="breakdown-row">
+      <span>Transport Fee</span>
+      <strong>Rs. {feeSummary.transportFee || 0}</strong>
+    </div>
+
+    <div className="breakdown-row">
+      <span>Exam Fee</span>
+      <strong>Rs. {feeSummary.examFee || 0}</strong>
+    </div>
+
+    <div className="breakdown-row">
+      <span>Other Fee</span>
+      <strong>Rs. {feeSummary.otherFee || 0}</strong>
+    </div>
+  </div>
+</div>
+
 <div className="payments-card">
   <div className="payments-header">
     <h2>Payment History</h2>

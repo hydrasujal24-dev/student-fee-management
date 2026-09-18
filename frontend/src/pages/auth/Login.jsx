@@ -1,32 +1,28 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../../services/api";
+import "./Login.css";
 
 function Login() {
   const navigate = useNavigate();
 
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-  });
-
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     setError("");
     setLoading(true);
 
     try {
-      const response = await api.post("/auth/login", formData);
+      const response = await api.post("/auth/login", {
+        email,
+        password,
+      });
 
       const { token, user } = response.data;
 
@@ -34,15 +30,16 @@ function Login() {
       localStorage.setItem("user", JSON.stringify(user));
 
       if (user.role === "admin") {
-        navigate("/admin/dashboard");
+        navigate("/admin/dashboard", { replace: true });
       } else if (user.role === "student") {
-        navigate("/student/dashboard");
+        navigate("/student/dashboard", { replace: true });
       } else {
         setError("Invalid user role.");
       }
     } catch (err) {
       setError(
-        err.response?.data?.message || "Login failed. Please try again."
+        err.response?.data?.message ||
+          "Login failed. Please check your email and password."
       );
     } finally {
       setLoading(false);
@@ -50,42 +47,143 @@ function Login() {
   };
 
   return (
-    <div>
-      <h1>Student Fee Management System</h1>
+    <div className="login-page">
+      <div className="login-container">
 
-      <h2>Login</h2>
+        {/* Left Branding Section */}
+        <div className="login-brand">
+          <div className="brand-content">
+            <div className="brand-logo">FM</div>
 
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Email</label>
-          <input
-            type="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            placeholder="Enter your email"
-            required
-          />
+            <p className="brand-label">STUDENT MANAGEMENT</p>
+
+            <h1>
+              Fee Management
+              <span>System</span>
+            </h1>
+
+            <p className="brand-description">
+              A simple and secure platform to manage student fees,
+              payments, records and digital receipts.
+            </p>
+
+            <div className="feature-list">
+              <div className="feature-item">
+                <span className="feature-icon">✓</span>
+                <span>Student Management</span>
+              </div>
+
+              <div className="feature-item">
+                <span className="feature-icon">✓</span>
+                <span>Fee & Payment Tracking</span>
+              </div>
+
+              <div className="feature-item">
+                <span className="feature-icon">✓</span>
+                <span>Digital Payment Receipts</span>
+              </div>
+            </div>
+          </div>
+
+          <p className="brand-footer">
+            Secure • Simple • Organized
+          </p>
         </div>
 
-        <div>
-          <label>Password</label>
-          <input
-            type="password"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-            placeholder="Enter your password"
-            required
-          />
+        {/* Login Section */}
+        <div className="login-section">
+          <div className="login-card">
+
+            <div className="login-heading">
+              <p className="login-welcome">WELCOME BACK</p>
+
+              <h2>Sign in to your account</h2>
+
+              <p>
+                Enter your credentials to access the system.
+              </p>
+            </div>
+
+            {error && (
+              <div className="login-error">
+                <span>!</span>
+                <p>{error}</p>
+              </div>
+            )}
+
+            <form onSubmit={handleSubmit}>
+
+              <div className="login-field">
+                <label htmlFor="email">Email Address</label>
+
+                <input
+                  id="email"
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Enter your email"
+                  autoComplete="email"
+                  required
+                />
+              </div>
+
+              <div className="login-field">
+                <label htmlFor="password">Password</label>
+
+                <div className="password-wrapper">
+                  <input
+                    id="password"
+                    type={showPassword ? "text" : "password"}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="Enter your password"
+                    autoComplete="current-password"
+                    required
+                  />
+
+                  <button
+                    type="button"
+                    className="password-toggle"
+                    onClick={() => setShowPassword(!showPassword)}
+                    aria-label={
+                      showPassword
+                        ? "Hide password"
+                        : "Show password"
+                    }
+                  >
+                    {showPassword ? "Hide" : "Show"}
+                  </button>
+                </div>
+              </div>
+
+              <button
+                type="submit"
+                className="login-button"
+                disabled={loading}
+              >
+                {loading ? (
+                  <>
+                    <span className="login-spinner"></span>
+                    Signing in...
+                  </>
+                ) : (
+                  <>
+                    Sign In
+                    <span className="login-arrow">→</span>
+                  </>
+                )}
+              </button>
+
+            </form>
+
+            <p className="login-security">
+              Your account information is securely protected.
+            </p>
+
+          </div>
         </div>
 
-        {error && <p>{error}</p>}
-
-        <button type="submit" disabled={loading}>
-          {loading ? "Logging in..." : "Login"}
-        </button>
-      </form>
+      </div>
     </div>
   );
 }
