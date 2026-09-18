@@ -1,6 +1,8 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+
 import Login from "./pages/auth/Login";
 import StudentDashboard from "./pages/student/StudentDashboard";
+
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminLayout from "./components/AdminLayout";
 import Students from "./pages/admin/Students";
@@ -8,6 +10,7 @@ import AddStudent from "./pages/admin/AddStudent";
 import Fees from "./pages/admin/Fees";
 import Payments from "./pages/admin/Payments";
 
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   return (
@@ -16,39 +19,43 @@ function App() {
         <Route path="/" element={<Login />} />
         <Route path="/login" element={<Login />} />
 
-        <Route
-          path="/student/dashboard"
-          element={<StudentDashboard />}
-        />
+        {/* Student Protected Routes */}
+        <Route element={<ProtectedRoute role="student" />}>
+          <Route
+            path="/student/dashboard"
+            element={<StudentDashboard />}
+          />
+        </Route>
 
-<Route element={<AdminLayout />}>
-  <Route
-    path="/admin/dashboard"
-    element={<AdminDashboard />}
-  />
+        {/* Admin Protected Routes */}
+        <Route element={<ProtectedRoute role="admin" />}>
+          <Route element={<AdminLayout />}>
+            <Route
+              path="/admin/dashboard"
+              element={<AdminDashboard />}
+            />
 
-  <Route
-    path="/admin/students"
-    element={<Students />}
-  />
+            <Route
+              path="/admin/students"
+              element={<Students />}
+            />
 
-  <Route
-    path="/admin/students/add"
-    element={<AddStudent />}
-  />
+            <Route
+              path="/admin/students/add"
+              element={<AddStudent />}
+            />
 
-  <Route
-    path="/admin/fees"
-    element={<Fees />}
-  />
+            <Route
+              path="/admin/fees"
+              element={<Fees />}
+            />
 
-  <Route
-  path="/admin/payments"
-  element={<Payments />}
-/>
-
-</Route>
-        
+            <Route
+              path="/admin/payments"
+              element={<Payments />}
+            />
+          </Route>
+        </Route>
       </Routes>
     </BrowserRouter>
   );

@@ -29,6 +29,8 @@ function StudentDashboard() {
     fetchDashboard();
   }, []);
 
+  
+
   if (error) {
     return (
       <div className="student-dashboard">
@@ -47,6 +49,7 @@ function StudentDashboard() {
 
   const { student, feeSummary, payments } = dashboard;
   
+
 const handleDownloadReceipt = async (paymentId) => {
   try {
     const token = localStorage.getItem("token");
@@ -154,6 +157,9 @@ const handleDownloadReceipt = async (paymentId) => {
               <td>
                 {new Date(payment.paymentDate).toLocaleDateString()}
               </td>
+               
+
+
 
               <td>
                 <button

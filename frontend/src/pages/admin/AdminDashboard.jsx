@@ -95,7 +95,7 @@ function AdminDashboard() {
             <tbody>
               {recentPayments.map((payment) => (
                 <tr key={payment._id}>
-                  <td>{payment.student.name}</td>
+                 <td>{payment.student?.name || "Unknown Student"}</td>
                   <td>{payment.feeType}</td>
                   <td>Rs. {payment.amount}</td>
                   <td>{payment.paymentMethod}</td>

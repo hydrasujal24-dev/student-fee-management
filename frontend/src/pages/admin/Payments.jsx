@@ -84,6 +84,8 @@ function Payments() {
     fetchPayments();
   }, [search, feeType, paymentMethod, page]);
 
+  
+
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -357,17 +359,17 @@ function Payments() {
             <div className="table-wrapper">
               <table className="payments-table">
                 <thead>
-                  <tr>
-                    <th>Student</th>
-                    <th>Fee Type</th>
-                    <th>Amount</th>
-                    <th>Payment Method</th>
-                    <th>Receipt</th>
-                    <th>Action</th>
-                    <th>Date</th>
-                    <th>Remarks</th>
-                  </tr>
-                </thead>
+  <tr>
+    <th>Student</th>
+    <th>Fee Type</th>
+    <th>Amount</th>
+    <th>Payment Method</th>
+    <th>Receipt</th>
+    <th>Date</th>
+    <th>Action</th>
+    <th>Remarks</th>
+  </tr>
+</thead>
 
                 <tbody>
                   {payments.map((payment) => (
