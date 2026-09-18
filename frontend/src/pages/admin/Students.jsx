@@ -21,6 +21,10 @@ function Students() {
   const [editForm, setEditForm] = useState({});
   const [saving, setSaving] = useState(false);
 
+  const [accountStudent, setAccountStudent] = useState(null);
+  const [accountPassword, setAccountPassword] = useState("");
+  const [creatingAccount, setCreatingAccount] = useState(false);
+
   const limit = 10;
 
   const fetchStudents = async () => {
@@ -45,15 +49,10 @@ function Students() {
 
       setStudents(response.data.students);
       setTotalPages(
-        response.data.pagination?.totalPages ||
-          response.data.totalPages ||
-          1
+        response.data.pagination?.totalPages || response.data.totalPages || 1,
       );
     } catch (err) {
-      setError(
-        err.response?.data?.message ||
-          "Failed to load students"
-      );
+      setError(err.response?.data?.message || "Failed to load students");
     } finally {
       setLoading(false);
     }
@@ -112,25 +111,18 @@ function Students() {
 
       const token = localStorage.getItem("token");
 
-      await api.put(
-        `/students/${editingStudent._id}`,
-        editForm,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      await api.put(`/students/${editingStudent._id}`, editForm, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
       setEditingStudent(null);
       setEditForm({});
 
       await fetchStudents();
     } catch (err) {
-      setError(
-        err.response?.data?.message ||
-          "Failed to update student"
-      );
+      setError(err.response?.data?.message || "Failed to update student");
     } finally {
       setSaving(false);
     }
@@ -138,7 +130,7 @@ function Students() {
 
   const handleDelete = async (student) => {
     const confirmed = window.confirm(
-      `Are you sure you want to delete ${student.name}?`
+      `Are you sure you want to delete ${student.name}?`,
     );
 
     if (!confirmed) {
@@ -158,10 +150,46 @@ function Students() {
 
       await fetchStudents();
     } catch (err) {
-      setError(
-        err.response?.data?.message ||
-          "Failed to delete student"
+      setError(err.response?.data?.message || "Failed to delete student");
+    }
+  };
+
+  const handleCreateAccount = async (e) => {
+    e.preventDefault();
+
+    if (!accountStudent) {
+      return;
+    }
+
+    try {
+      setCreatingAccount(true);
+      setError("");
+
+      const token = localStorage.getItem("token");
+
+      await api.post(
+        "/auth/create-student-account",
+        {
+          studentId: accountStudent.studentId,
+          password: accountPassword,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
       );
+
+      setAccountStudent(null);
+      setAccountPassword("");
+
+      await fetchStudents();
+    } catch (err) {
+      setError(
+        err.response?.data?.message || "Failed to create student account",
+      );
+    } finally {
+      setCreatingAccount(false);
     }
   };
 
@@ -181,11 +209,7 @@ function Students() {
         </button>
       </div>
 
-      {error && (
-        <div className="error-message">
-          {error}
-        </div>
-      )}
+      {error && <div className="error-message">{error}</div>}
 
       {editingStudent && (
         <div className="edit-student-card">
@@ -322,12 +346,90 @@ function Students() {
                 Cancel
               </button>
 
+              <button type="submit" className="save-edit-btn" disabled={saving}>
+                {saving ? "Saving..." : "Save Changes"}
+              </button>
+            </div>
+          </form>
+        </div>
+      )}
+
+      {accountStudent && (
+        <div className="create-account-card">
+          <div className="create-account-header">
+            <div>
+              <h2>Create Student Account</h2>
+              <p>Create login credentials for this student</p>
+            </div>
+
+            <button
+              type="button"
+              className="close-account-btn"
+              onClick={() => {
+                setAccountStudent(null);
+                setAccountPassword("");
+              }}
+            >
+              ×
+            </button>
+          </div>
+
+          <div className="account-student-info">
+            <div className="account-info-box">
+              <span>Student Name</span>
+              <strong>{accountStudent.name}</strong>
+            </div>
+
+            <div className="account-info-box">
+              <span>Student ID</span>
+              <strong>{accountStudent.studentId}</strong>
+            </div>
+
+            <div className="account-info-box">
+              <span>Email</span>
+              <strong>{accountStudent.email}</strong>
+            </div>
+
+            <div className="account-info-box">
+              <span>Class</span>
+              <strong>
+                {accountStudent.className} - {accountStudent.section}
+              </strong>
+            </div>
+          </div>
+
+          <form onSubmit={handleCreateAccount}>
+            <div className="account-password-group">
+              <label>Password</label>
+
+              <input
+                type="password"
+                value={accountPassword}
+                onChange={(e) => setAccountPassword(e.target.value)}
+                placeholder="Enter login password"
+                minLength="6"
+                required
+              />
+            </div>
+
+            <div className="account-actions">
+              <button
+                type="button"
+                className="cancel-account-btn"
+                onClick={() => {
+                  setAccountStudent(null);
+                  setAccountPassword("");
+                }}
+              >
+                Cancel
+              </button>
+
               <button
                 type="submit"
-                className="save-edit-btn"
-                disabled={saving}
+                className="create-account-btn"
+                disabled={creatingAccount}
               >
-                {saving ? "Saving..." : "Save Changes"}
+                {creatingAccount ? "Creating..." : "Create Account"}
               </button>
             </div>
           </form>
@@ -342,20 +444,14 @@ function Students() {
           onChange={handleSearchChange}
         />
 
-        <select
-          value={className}
-          onChange={handleClassChange}
-        >
+        <select value={className} onChange={handleClassChange}>
           <option value="">All Classes</option>
           <option value="BIT">BIT</option>
           <option value="BCA">BCA</option>
           <option value="BBA">BBA</option>
         </select>
 
-        <select
-          value={section}
-          onChange={handleSectionChange}
-        >
+        <select value={section} onChange={handleSectionChange}>
           <option value="">All Sections</option>
           <option value="A">A</option>
           <option value="B">B</option>
@@ -365,13 +461,9 @@ function Students() {
 
       <div className="students-card">
         {loading ? (
-          <p className="table-message">
-            Loading students...
-          </p>
+          <p className="table-message">Loading students...</p>
         ) : students.length === 0 ? (
-          <p className="table-message">
-            No students found.
-          </p>
+          <p className="table-message">No students found.</p>
         ) : (
           <>
             <div className="table-wrapper">
@@ -384,6 +476,7 @@ function Students() {
                     <th>Class</th>
                     <th>Section</th>
                     <th>Phone</th>
+                    <th>Account</th>
                     <th>Actions</th>
                   </tr>
                 </thead>
@@ -392,21 +485,15 @@ function Students() {
                   {students.map((student) => (
                     <tr key={student._id}>
                       <td>
-                        <span className="student-id">
-                          {student.studentId}
-                        </span>
+                        <span className="student-id">{student.studentId}</span>
                       </td>
 
-                      <td className="student-name">
-                        {student.name}
-                      </td>
+                      <td className="student-name">{student.name}</td>
 
                       <td>{student.email}</td>
 
                       <td>
-                        <span className="class-badge">
-                          {student.className}
-                        </span>
+                        <span className="class-badge">{student.className}</span>
                       </td>
 
                       <td>{student.section}</td>
@@ -414,21 +501,34 @@ function Students() {
                       <td>{student.phone}</td>
 
                       <td>
+                        {student.hasAccount ? (
+                          <span className="account-status">Active</span>
+                        ) : (
+                          <button
+                            className="account-btn"
+                            onClick={() => {
+                              setAccountStudent(student);
+                              setAccountPassword("");
+                              setError("");
+                            }}
+                          >
+                            Create
+                          </button>
+                        )}
+                      </td>
+
+                      <td>
                         <div className="student-actions">
                           <button
                             className="edit-btn"
-                            onClick={() =>
-                              handleEdit(student)
-                            }
+                            onClick={() => handleEdit(student)}
                           >
                             Edit
                           </button>
 
                           <button
                             className="delete-btn"
-                            onClick={() =>
-                              handleDelete(student)
-                            }
+                            onClick={() => handleDelete(student)}
                           >
                             Delete
                           </button>
@@ -441,16 +541,12 @@ function Students() {
             </div>
 
             <div className="pagination">
-              <button
-                onClick={() => setPage(page - 1)}
-                disabled={page === 1}
-              >
+              <button onClick={() => setPage(page - 1)} disabled={page === 1}>
                 Previous
               </button>
 
               <span>
-                Page <strong>{page}</strong> of{" "}
-                <strong>{totalPages}</strong>
+                Page <strong>{page}</strong> of <strong>{totalPages}</strong>
               </span>
 
               <button

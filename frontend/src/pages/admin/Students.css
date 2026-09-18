@@ -366,3 +366,185 @@
     grid-column: auto;
   }
 }
+
+/* Student Account */
+
+.account-btn {
+  border: none;
+  background: #ecfdf5;
+  color: #059669;
+  padding: 7px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.account-btn:hover {
+  background: #d1fae5;
+}
+
+.account-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: #059669;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.account-status::before {
+  content: "✓";
+  font-size: 13px;
+}
+
+/* Create Account Card */
+
+.create-account-card {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 24px;
+  margin-bottom: 24px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.create-account-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 22px;
+}
+
+.create-account-header h2 {
+  margin: 0;
+  color: #111827;
+  font-size: 20px;
+}
+
+.create-account-header p {
+  margin: 5px 0 0;
+  color: #6b7280;
+  font-size: 13px;
+}
+
+.close-account-btn {
+  border: none;
+  background: transparent;
+  color: #6b7280;
+  font-size: 28px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.close-account-btn:hover {
+  color: #111827;
+}
+
+.account-student-info {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+.account-info-box {
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 7px;
+  padding: 12px;
+}
+
+.account-info-box span {
+  display: block;
+  color: #6b7280;
+  font-size: 12px;
+  margin-bottom: 4px;
+}
+
+.account-info-box strong {
+  color: #111827;
+  font-size: 14px;
+}
+
+.account-password-group {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.account-password-group label {
+  color: #374151;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.account-password-group input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 7px;
+  font-size: 14px;
+  outline: none;
+}
+
+.account-password-group input:focus {
+  border-color: #2563eb;
+}
+
+.account-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 22px;
+}
+
+.cancel-account-btn,
+.create-account-btn {
+  padding: 10px 16px;
+  border-radius: 7px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.cancel-account-btn {
+  border: 1px solid #d1d5db;
+  background: white;
+  color: #374151;
+}
+
+.cancel-account-btn:hover {
+  background: #f9fafb;
+}
+
+.create-account-btn {
+  border: none;
+  background: #059669;
+  color: white;
+}
+
+.create-account-btn:hover {
+  background: #047857;
+}
+
+.create-account-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+@media (max-width: 700px) {
+  .account-student-info {
+    grid-template-columns: 1fr;
+  }
+
+  .account-actions {
+    flex-direction: column;
+  }
+
+  .cancel-account-btn,
+  .create-account-btn {
+    width: 100%;
+  }
+}

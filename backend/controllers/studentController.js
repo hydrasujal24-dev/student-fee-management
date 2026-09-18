@@ -1,4 +1,5 @@
 const Student = require("../models/Student");
+const User = require("../models/User");
 
 // Add Student
 const addStudent = async (req, res) => {
@@ -106,8 +107,25 @@ const getStudents = async (req, res) => {
 
     const totalStudents = await Student.countDocuments(query);
 
+    // Check which students already have login accounts
+    const studentIds = students.map((student) => student._id);
+
+    const accounts = await User.find({
+      student: { $in: studentIds },
+      role: "student",
+    }).select("student");
+
+    const accountStudentIds = new Set(
+      accounts.map((account) => account.student.toString())
+    );
+
+    const studentsWithAccountStatus = students.map((student) => ({
+      ...student.toObject(),
+      hasAccount: accountStudentIds.has(student._id.toString()),
+    }));
+
     res.status(200).json({
-      students,
+      students: studentsWithAccountStatus,
       pagination: {
         currentPage: Number(page),
         totalPages: Math.ceil(
@@ -176,6 +194,7 @@ const updateStudent = async (req, res) => {
       });
     }
 
+    // Check duplicate Student ID or email
     const existingStudent = await Student.findOne({
       $or: [{ studentId }, { email }],
       _id: { $ne: req.params.id },
@@ -187,29 +206,58 @@ const updateStudent = async (req, res) => {
       });
     }
 
-    const student = await Student.findByIdAndUpdate(
-      req.params.id,
-      {
-        studentId,
-        name,
-        email,
-        phone,
-        address,
-        className,
-        section,
-        parentName,
-        parentPhone,
-      },
-      {
-        new: true,
-        runValidators: true,
-      }
-    );
+    // Find the student first
+    const student = await Student.findById(req.params.id);
 
     if (!student) {
       return res.status(404).json({
         message: "Student not found",
       });
+    }
+
+    // Check whether this student has a login account
+    const linkedUser = await User.findOne({
+      student: student._id,
+      role: "student",
+    });
+
+    // If the email is being changed and this student has an account,
+    // make sure the new email is not already used by another User
+    if (
+      linkedUser &&
+      email.toLowerCase() !== linkedUser.email.toLowerCase()
+    ) {
+      const existingUser = await User.findOne({
+        email: email.toLowerCase(),
+        _id: { $ne: linkedUser._id },
+      });
+
+      if (existingUser) {
+        return res.status(400).json({
+          message: "This email is already used by another account",
+        });
+      }
+    }
+
+    // Update Student
+    student.studentId = studentId;
+    student.name = name;
+    student.email = email;
+    student.phone = phone;
+    student.address = address;
+    student.className = className;
+    student.section = section;
+    student.parentName = parentName;
+    student.parentPhone = parentPhone;
+
+    await student.save();
+
+    // Keep linked login account synchronized
+    if (linkedUser) {
+      linkedUser.email = email.toLowerCase();
+      linkedUser.name = name;
+
+      await linkedUser.save();
     }
 
     res.status(200).json({
