@@ -1,7 +1,7 @@
 const express = require("express");
 
 const {
-  getMyDashboard,
+  getStudentDashboard,
 } = require("../controllers/studentDashboardController");
 
 const {
@@ -15,7 +15,7 @@ router.get(
   "/dashboard",
   protect,
   studentOnly,
-  getMyDashboard
+  getStudentDashboard
 );
 
 module.exports = router;

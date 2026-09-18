@@ -4,10 +4,9 @@ const Fee = require("../models/Fee");
 const Payment = require("../models/Payment");
 
 // Get logged-in student's dashboard
-const getMyDashboard = async (req, res) => {
+const getStudentDashboard = async (req, res) => {
   try {
-    // Find the user who is logged in
-    const user = await User.findById(req.user.id);
+    const user = await User.findById(req.user.id).populate("student");
 
     if (!user) {
       return res.status(404).json({
@@ -15,39 +14,34 @@ const getMyDashboard = async (req, res) => {
       });
     }
 
-    // Find student profile using the same email
-    const student = await Student.findOne({
-      email: user.email,
-    });
-
-    if (!student) {
+    if (!user.student) {
       return res.status(404).json({
-        message: "Student profile not found",
+        message: "Student profile is not linked to this account",
       });
     }
 
-    // Find fee structure
+    const student = user.student;
+
     const fee = await Fee.findOne({
       student: student._id,
     });
 
-    // Find payments
+    if (!fee) {
+      return res.status(404).json({
+        message: "Fee structure not found",
+      });
+    }
+
     const payments = await Payment.find({
       student: student._id,
     }).sort({ paymentDate: -1 });
 
-    // Calculate total paid
     const totalPaid = payments.reduce(
       (total, payment) => total + payment.amount,
       0
     );
 
-    const totalFee = fee ? fee.totalFee : 0;
-
-    const outstanding = Math.max(
-      totalFee - totalPaid,
-      0
-    );
+    const outstanding = Math.max(fee.totalFee - totalPaid, 0);
 
     res.status(200).json({
       student: {
@@ -58,13 +52,11 @@ const getMyDashboard = async (req, res) => {
         className: student.className,
         section: student.section,
       },
-
       feeSummary: {
-        totalFee,
+        totalFee: fee.totalFee,
         totalPaid,
         outstanding,
       },
-
       payments,
     });
   } catch (error) {
@@ -76,5 +68,5 @@ const getMyDashboard = async (req, res) => {
 };
 
 module.exports = {
-  getMyDashboard,
+  getStudentDashboard,
 };

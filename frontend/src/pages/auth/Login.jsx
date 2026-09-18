@@ -39,7 +39,7 @@ function Login() {
     } catch (err) {
       setError(
         err.response?.data?.message ||
-          "Login failed. Please check your email and password."
+        "Login failed. Please check your email and password."
       );
     } finally {
       setLoading(false);
@@ -53,40 +53,25 @@ function Login() {
         {/* Left Branding Section */}
         <div className="login-brand">
           <div className="brand-content">
-            <div className="brand-logo">FM</div>
+            <div className="brand-icon">₹</div>
 
-            <p className="brand-label">STUDENT MANAGEMENT</p>
+            <h1>Fee Management<br />System</h1>
 
-            <h1>
-              Fee Management
-              <span>System</span>
-            </h1>
-
-            <p className="brand-description">
-              A simple and secure platform to manage student fees,
-              payments, records and digital receipts.
+            <p>
+              A simple and secure platform for managing
+              student fees, payments and records.
             </p>
 
-            <div className="feature-list">
-              <div className="feature-item">
-                <span className="feature-icon">✓</span>
-                <span>Student Management</span>
-              </div>
-
-              <div className="feature-item">
-                <span className="feature-icon">✓</span>
-                <span>Fee & Payment Tracking</span>
-              </div>
-
-              <div className="feature-item">
-                <span className="feature-icon">✓</span>
-                <span>Digital Payment Receipts</span>
-              </div>
+            <div className="brand-features">
+              <div>✓ Student Management</div>
+              <div>✓ Fee Tracking</div>
+              <div>✓ Payment Records</div>
+              <div>✓ Digital Receipts</div>
             </div>
           </div>
 
           <p className="brand-footer">
-            Secure • Simple • Organized
+            Student Fee Management System
           </p>
         </div>
 
@@ -95,49 +80,38 @@ function Login() {
           <div className="login-card">
 
             <div className="login-heading">
-              <p className="login-welcome">WELCOME BACK</p>
-
-              <h2>Sign in to your account</h2>
-
-              <p>
-                Enter your credentials to access the system.
-              </p>
+              <h2>Welcome Back</h2>
+              <p>Sign in to continue to your account</p>
             </div>
 
             {error && (
               <div className="login-error">
-                <span>!</span>
-                <p>{error}</p>
+                {error}
               </div>
             )}
 
             <form onSubmit={handleSubmit}>
 
               <div className="login-field">
-                <label htmlFor="email">Email Address</label>
-
+                <label>Email Address</label>
                 <input
-                  id="email"
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="Enter your email"
-                  autoComplete="email"
                   required
                 />
               </div>
 
               <div className="login-field">
-                <label htmlFor="password">Password</label>
+                <label>Password</label>
 
                 <div className="password-wrapper">
                   <input
-                    id="password"
                     type={showPassword ? "text" : "password"}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="Enter your password"
-                    autoComplete="current-password"
                     required
                   />
 
@@ -145,11 +119,6 @@ function Login() {
                     type="button"
                     className="password-toggle"
                     onClick={() => setShowPassword(!showPassword)}
-                    aria-label={
-                      showPassword
-                        ? "Hide password"
-                        : "Show password"
-                    }
                   >
                     {showPassword ? "Hide" : "Show"}
                   </button>
@@ -161,23 +130,13 @@ function Login() {
                 className="login-button"
                 disabled={loading}
               >
-                {loading ? (
-                  <>
-                    <span className="login-spinner"></span>
-                    Signing in...
-                  </>
-                ) : (
-                  <>
-                    Sign In
-                    <span className="login-arrow">→</span>
-                  </>
-                )}
+                {loading ? "Signing in..." : "Sign In"}
               </button>
 
             </form>
 
-            <p className="login-security">
-              Your account information is securely protected.
+            <p className="login-footer">
+              Secure access to your fee management account
             </p>
 
           </div>

@@ -19,17 +19,31 @@ const generateReceipt = async (req, res) => {
       });
     }
 
+    if (!payment.student) {
+  return res.status(400).json({
+    message: "Payment is not linked to a student",
+  });
+}
+
     // Student can only access their own receipt
-    if (req.user.role === "student") {
-      const user = await User.findById(req.user.id);
+if (req.user.role === "student") {
+  const user = await User.findById(req.user.id);
 
-      if (!user || user.email !== payment.student.email) {
-        return res.status(403).json({
-          message: "You can only access your own receipt",
-        });
-      }
-    }
+  if (!user || !user.student) {
+    return res.status(403).json({
+      message: "Student account is not linked to a student profile",
+    });
+  }
 
+  if (
+    !payment.student ||
+    user.student.toString() !== payment.student._id.toString()
+  ) {
+    return res.status(403).json({
+      message: "You can only access your own receipt",
+    });
+  }
+}
     const fee = await Fee.findOne({
       student: payment.student._id,
     });
