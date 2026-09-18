@@ -206,3 +206,20 @@
     flex-direction: column;
   }
 }
+
+.download-receipt-btn {
+  padding: 7px 12px;
+  border: none;
+  border-radius: 6px;
+  background: #2563eb;
+  color: white;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s ease;
+  white-space: nowrap;
+}
+
+.download-receipt-btn:hover {
+  background: #1d4ed8;
+}

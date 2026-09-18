@@ -46,6 +46,41 @@ function StudentDashboard() {
   }
 
   const { student, feeSummary, payments } = dashboard;
+  
+const handleDownloadReceipt = async (paymentId) => {
+  try {
+    const token = localStorage.getItem("token");
+
+    const response = await api.get(`/receipts/${paymentId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      responseType: "blob",
+    });
+
+    const blob = new Blob([response.data], {
+      type: "application/pdf",
+    });
+
+    const url = window.URL.createObjectURL(blob);
+
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `receipt-${paymentId}.pdf`;
+
+    document.body.appendChild(link);
+    link.click();
+
+    link.remove();
+    window.URL.revokeObjectURL(url);
+  } catch (err) {
+    setError(
+      err.response?.data?.message ||
+        "Failed to download receipt"
+    );
+  }
+};
+
 
   return (
     <div className="student-dashboard">
@@ -84,45 +119,57 @@ function StudentDashboard() {
           <h3>Rs. {feeSummary.outstanding}</h3>
         </div>
       </div>
+<div className="payments-card">
+  <div className="payments-header">
+    <h2>Payment History</h2>
+    <span>{payments.length} payment(s)</span>
+  </div>
 
-      <div className="payments-card">
-        <div className="payments-header">
-          <h2>Payment History</h2>
-          <span>{payments.length} payment(s)</span>
-        </div>
+  {payments.length === 0 ? (
+    <p className="no-payments">No payments found.</p>
+  ) : (
+    <div className="payment-table-wrapper">
+      <table className="payment-table">
+        <thead>
+          <tr>
+            <th>Fee Type</th>
+            <th>Amount</th>
+            <th>Payment Method</th>
+            <th>Date</th>
+            <th>Receipt</th>
+          </tr>
+        </thead>
 
-        {payments.length === 0 ? (
-          <p className="no-payments">No payments found.</p>
-        ) : (
-          <div className="payment-table-wrapper">
-            <table className="payment-table">
-              <thead>
-                <tr>
-                  <th>Fee Type</th>
-                  <th>Amount</th>
-                  <th>Payment Method</th>
-                  <th>Date</th>
-                </tr>
-              </thead>
+        <tbody>
+          {payments.map((payment) => (
+            <tr key={payment._id}>
+              <td>{payment.feeType}</td>
 
-              <tbody>
-                {payments.map((payment) => (
-                  <tr key={payment._id}>
-                    <td>{payment.feeType}</td>
-                    <td className="payment-amount">
-                      Rs. {payment.amount}
-                    </td>
-                    <td>{payment.paymentMethod}</td>
-                    <td>
-                      {new Date(payment.paymentDate).toLocaleDateString()}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
-      </div>
+              <td className="payment-amount">
+                Rs. {payment.amount}
+              </td>
+
+              <td>{payment.paymentMethod}</td>
+
+              <td>
+                {new Date(payment.paymentDate).toLocaleDateString()}
+              </td>
+
+              <td>
+                <button
+                  className="download-receipt-btn"
+                  onClick={() => handleDownloadReceipt(payment._id)}
+                >
+                  Download
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  )}
+</div>
     </div>
   );
 }
