@@ -239,3 +239,35 @@
 .student-download-btn:hover {
   background: #1d4ed8;
 }
+
+.student-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
+
+.student-logout-btn {
+  border: 1px solid #d1d5db;
+  background: white;
+  color: #374151;
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.student-logout-btn:hover {
+  background: #f3f4f6;
+}
+
+@media (max-width: 600px) {
+  .student-header {
+    align-items: flex-start;
+  }
+
+  .student-logout-btn {
+    padding: 9px 14px;
+  }
+}

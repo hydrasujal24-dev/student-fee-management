@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import api from "../../services/api";
 import "./StudentDashboard.css";
+
 
 function StudentDashboard() {
   const [dashboard, setDashboard] = useState(null);
   const [error, setError] = useState("");
+const navigate = useNavigate();
 
   useEffect(() => {
     const fetchDashboard = async () => {
@@ -29,7 +32,11 @@ function StudentDashboard() {
     fetchDashboard();
   }, []);
 
-  
+  const handleLogout = () => {
+  localStorage.removeItem("token");
+  localStorage.removeItem("user");
+  navigate("/login", { replace: true });
+};
 
   if (error) {
     return (
@@ -87,12 +94,20 @@ const handleDownloadReceipt = async (paymentId) => {
 
   return (
     <div className="student-dashboard">
-      <div className="student-header">
-        <div>
-          <h1>Student Dashboard</h1>
-          <p>View your fee information and payment history</p>
-        </div>
-      </div>
+     <div className="student-header">
+  <div>
+    <h1>Student Dashboard</h1>
+    <p>View your fee information and payment history</p>
+  </div>
+
+  <button
+    type="button"
+    className="student-logout-btn"
+    onClick={handleLogout}
+  >
+    Logout
+  </button>
+</div>
 
       <div className="welcome-card">
         <div>
