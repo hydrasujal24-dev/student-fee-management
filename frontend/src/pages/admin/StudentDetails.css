@@ -1,21 +1,32 @@
+/* =========================================================
+   Student Details Page
+========================================================= */
+
 .student-details-page {
   max-width: 1200px;
   margin: 0 auto;
 }
 
+/* =========================================================
+   Header
+========================================================= */
+
 .details-header {
-  margin-bottom: 24px;
+  margin-bottom: 28px;
 }
 
 .details-header h1 {
   margin: 12px 0 0;
-  font-size: 30px;
   color: #111827;
+  font-size: 30px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
 }
 
 .details-header p {
   margin: 6px 0 0;
   color: #6b7280;
+  font-size: 14px;
 }
 
 .back-btn {
@@ -26,19 +37,29 @@
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
+  transition: color 0.2s ease;
 }
 
 .back-btn:hover {
   color: #1d4ed8;
 }
 
+/* =========================================================
+   Common Cards
+========================================================= */
+
 .details-card {
-  background: white;
+  background: #ffffff;
   border: 1px solid #e5e7eb;
-  border-radius: 10px;
+  border-radius: 12px;
   padding: 24px;
   margin-bottom: 24px;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
 }
+
+/* =========================================================
+   Card Headers
+========================================================= */
 
 .card-title,
 .card-heading {
@@ -50,8 +71,8 @@
 
 .card-title {
   padding-bottom: 20px;
-  border-bottom: 1px solid #f1f5f9;
   margin-bottom: 20px;
+  border-bottom: 1px solid #f1f5f9;
 }
 
 .card-title h2,
@@ -59,6 +80,7 @@
   margin: 0;
   color: #111827;
   font-size: 20px;
+  font-weight: 700;
 }
 
 .card-title p {
@@ -76,19 +98,36 @@
   font-size: 13px;
 }
 
+/* =========================================================
+   Account Badge
+========================================================= */
+
 .account-badge {
+  display: inline-flex;
+  align-items: center;
   padding: 6px 10px;
   border-radius: 6px;
   background: #f3f4f6;
   color: #6b7280;
   font-size: 12px;
   font-weight: 600;
+  white-space: nowrap;
 }
 
 .account-badge.active {
   background: #ecfdf5;
   color: #059669;
 }
+
+.account-badge.active::before {
+  content: "✓";
+  margin-right: 5px;
+  font-size: 11px;
+}
+
+/* =========================================================
+   Student Information
+========================================================= */
 
 .student-info-grid {
   display: grid;
@@ -100,6 +139,7 @@
   display: flex;
   flex-direction: column;
   gap: 5px;
+  min-width: 0;
 }
 
 .student-info-grid span,
@@ -107,18 +147,25 @@
 .fee-breakdown span {
   color: #6b7280;
   font-size: 12px;
+  font-weight: 500;
 }
 
 .student-info-grid strong {
   color: #111827;
   font-size: 14px;
+  font-weight: 600;
   word-break: break-word;
 }
+
+/* =========================================================
+   Fee Summary
+========================================================= */
 
 .details-section-title {
   margin: 30px 0 16px;
   color: #111827;
   font-size: 20px;
+  font-weight: 700;
 }
 
 .summary-grid {
@@ -129,10 +176,19 @@
 }
 
 .summary-card {
-  background: white;
+  background: #ffffff;
   border: 1px solid #e5e7eb;
-  border-radius: 10px;
+  border-radius: 12px;
   padding: 20px;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.summary-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 14px rgba(15, 23, 42, 0.07);
 }
 
 .summary-card strong {
@@ -140,15 +196,21 @@
   margin-top: 7px;
   color: #111827;
   font-size: 24px;
+  font-weight: 700;
 }
 
 .outstanding-summary {
   border-color: #fed7aa;
+  background: #fffaf5;
 }
 
 .outstanding-summary strong {
   color: #ea580c;
 }
+
+/* =========================================================
+   Fee Breakdown
+========================================================= */
 
 .fee-breakdown {
   display: flex;
@@ -159,6 +221,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 20px;
   padding: 13px 0;
   border-bottom: 1px solid #f1f5f9;
 }
@@ -166,20 +229,25 @@
 .fee-breakdown strong {
   color: #111827;
   font-size: 14px;
+  font-weight: 600;
 }
 
 .fee-breakdown .fee-total {
-  border-bottom: none;
-  padding-bottom: 0;
   margin-top: 4px;
+  padding-bottom: 0;
+  border-bottom: none;
 }
 
 .fee-total span,
 .fee-total strong {
+  color: #111827;
   font-size: 15px;
   font-weight: 700;
-  color: #111827;
 }
+
+/* =========================================================
+   Payment History Table
+========================================================= */
 
 .details-table-wrapper {
   width: 100%;
@@ -188,67 +256,107 @@
 
 .details-table {
   width: 100%;
+  min-width: 750px;
   border-collapse: collapse;
 }
 
 .details-table th {
-  background: #f9fafb;
-  color: #6b7280;
+  background: #f8fafc;
+  color: #64748b;
   text-align: left;
-  padding: 13px 14px;
+  padding: 14px;
   font-size: 12px;
-  font-weight: 600;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
   border-bottom: 1px solid #e5e7eb;
+  white-space: nowrap;
 }
 
 .details-table td {
   padding: 14px;
   border-bottom: 1px solid #f1f5f9;
-  color: #374151;
+  color: #475569;
   font-size: 13px;
+  vertical-align: middle;
+}
+
+.details-table tbody tr {
+  transition: background 0.15s ease;
 }
 
 .details-table tbody tr:hover {
-  background: #f9fafb;
+  background: #f8fafc;
 }
 
+.details-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* =========================================================
+   Payment Information
+========================================================= */
+
 .receipt-number {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 7px;
+  border-radius: 5px;
+  background: #eff6ff;
   color: #2563eb;
+  font-size: 12px;
   font-weight: 600;
 }
 
 .payment-amount {
-  font-weight: 600;
   color: #111827 !important;
+  font-weight: 700;
+  white-space: nowrap;
 }
+
+/* =========================================================
+   Empty / Loading / Error
+========================================================= */
 
 .empty-message,
 .details-loading {
+  margin: 0;
   color: #6b7280;
   text-align: center;
-  padding: 25px 0;
+  padding: 30px 0;
+  font-size: 14px;
 }
 
 .details-error {
   background: #fef2f2;
   border: 1px solid #fecaca;
   color: #b91c1c;
-  padding: 12px 14px;
+  padding: 13px 14px;
   border-radius: 8px;
+  font-size: 14px;
 }
 
-@media (max-width: 800px) {
+/* =========================================================
+   Responsive
+========================================================= */
+
+@media (max-width: 900px) {
   .student-info-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 
   .summary-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
   }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 700px) {
   .student-info-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .summary-grid {
     grid-template-columns: 1fr;
   }
 
@@ -256,5 +364,32 @@
   .card-heading {
     align-items: flex-start;
     flex-direction: column;
+  }
+
+  .account-badge {
+    align-self: flex-start;
+  }
+}
+
+@media (max-width: 600px) {
+  .details-header h1 {
+    font-size: 26px;
+  }
+
+  .details-card {
+    padding: 18px;
+    border-radius: 10px;
+  }
+
+  .summary-card {
+    padding: 18px;
+  }
+
+  .summary-card strong {
+    font-size: 22px;
+  }
+
+  .fee-breakdown > div {
+    padding: 12px 0;
   }
 }

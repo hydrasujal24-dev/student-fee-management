@@ -15,6 +15,9 @@ function Payments() {
 
   const [payments, setPayments] = useState([]);
   const [paymentsLoading, setPaymentsLoading] = useState(true);
+ 
+const [studentSummary, setStudentSummary] = useState(null);
+const [summaryLoading, setSummaryLoading] = useState(false);
 
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
@@ -72,8 +75,10 @@ function Payments() {
           },
         });
 
-        setPayments(response.data.payments);
-        setTotalPages(response.data.totalPages || 1);
+        setPayments(response.data.payments || []);
+setTotalPages(
+  response.data.pagination?.totalPages || 1
+);
       } catch (err) {
         setError(err.response?.data?.message || "Failed to load payments");
       } finally {
@@ -85,6 +90,42 @@ function Payments() {
   }, [search, feeType, paymentMethod, page]);
 
   
+useEffect(() => {
+  const fetchStudentSummary = async () => {
+    if (!selectedStudent) {
+      setStudentSummary(null);
+      return;
+    }
+
+    try {
+      setSummaryLoading(true);
+
+      const token = localStorage.getItem("token");
+
+      const response = await api.get(
+        `/payments/student/${selectedStudent}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      setStudentSummary(response.data.summary);
+    } catch (err) {
+      setStudentSummary(null);
+      setError(
+        err.response?.data?.message ||
+          "Failed to load student fee summary"
+      );
+    } finally {
+      setSummaryLoading(false);
+    }
+  };
+
+  fetchStudentSummary();
+}, [selectedStudent]);
+
 
   const handleChange = (e) => {
     setFormData({
@@ -169,15 +210,22 @@ if (!confirmed) {
       );
 
       const paymentsResponse = await api.get("/payments", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        params: {
-          limit: 100,
-        },
-      });
+  headers: {
+    Authorization: `Bearer ${token}`,
+  },
+  params: {
+    search,
+    feeType,
+    paymentMethod,
+    page,
+    limit,
+  },
+});
 
-      setPayments(paymentsResponse.data.payments || paymentsResponse.data);
+setPayments(paymentsResponse.data.payments || []);
+setTotalPages(
+  paymentsResponse.data.pagination?.totalPages || 1
+);
 
       setSelectedStudent("");
 
@@ -230,6 +278,32 @@ if (!confirmed) {
                   </option>
                 ))}
               </select>
+              {selectedStudent && (
+  <div className="student-fee-summary">
+    {summaryLoading ? (
+      <p>Loading fee summary...</p>
+    ) : studentSummary ? (
+      <>
+        <div>
+          <span>Total Fee</span>
+          <strong>Rs. {studentSummary.totalFee}</strong>
+        </div>
+
+        <div>
+          <span>Total Paid</span>
+          <strong>Rs. {studentSummary.totalPaid}</strong>
+        </div>
+
+        <div>
+          <span>Outstanding</span>
+          <strong>Rs. {studentSummary.outstanding}</strong>
+        </div>
+      </>
+    ) : null}
+  </div>
+)}
+
+
             </div>
 
             <div className="form-group">

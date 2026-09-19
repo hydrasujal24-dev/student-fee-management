@@ -349,3 +349,37 @@
   background: #eff6ff;
   border-color: #2563eb;
 }
+
+.student-fee-summary {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 4px;
+  padding: 18px;
+  border-radius: 12px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+}
+
+.student-fee-summary div {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.student-fee-summary span {
+  font-size: 13px;
+  color: #64748b;
+}
+
+.student-fee-summary strong {
+  font-size: 18px;
+  color: #0f172a;
+}
+
+@media (max-width: 768px) {
+  .student-fee-summary {
+    grid-template-columns: 1fr;
+  }
+}
