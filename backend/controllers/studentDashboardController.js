@@ -53,10 +53,14 @@ const getStudentDashboard = async (req, res) => {
         section: student.section,
       },
       feeSummary: {
-        totalFee: fee.totalFee,
-        totalPaid,
-        outstanding,
-      },
+  tuitionFee: fee.tuitionFee,
+  transportFee: fee.transportFee,
+  examFee: fee.examFee,
+  otherFee: fee.otherFee,
+  totalFee: fee.totalFee,
+  totalPaid,
+  outstanding,
+},
       payments,
     });
   } catch (error) {
