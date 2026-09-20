@@ -3,6 +3,7 @@ const express = require("express");
 const {
   createStudentAccount,
   loginUser,
+  changePassword,
 } = require("../controllers/authController");
 
 const { protect, adminOnly } = require("../middleware/authMiddleware");
@@ -20,6 +21,12 @@ router.post(
   loginValidation,
   validate,
   loginUser
+);
+
+router.post(
+  "/change-password",
+  protect,
+  changePassword
 );
 
 router.post(

@@ -1,0 +1,129 @@
+.student-layout {
+  display: flex;
+  min-height: 100vh;
+  background: #f5f7fb;
+}
+
+.student-sidebar {
+  width: 240px;
+  background: #111827; 
+  border-right: 1px solid #e5e7eb;
+  padding: 24px 16px;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+.student-sidebar .sidebar-header {
+  margin-bottom: 30px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.student-sidebar .sidebar-header h2 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: -0.3px;
+}
+
+.student-sidebar .sidebar-header p {
+  margin: 4px 0 0;
+  color: #94a3b8;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+}
+
+.student-sidebar .sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.student-sidebar .sidebar-nav a {
+  text-decoration: none;
+  color: #d1d5db; 
+  padding: 11px 14px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  transition: 0.2s ease;
+}
+
+.student-sidebar .sidebar-nav a:hover {
+  background: #1f2937; 
+  color:  #ffffff;
+}
+
+.student-sidebar .sidebar-nav a.active {
+  background: #2563eb;
+  color: #ffffff;
+}
+
+.student-sidebar .logout-btn {
+  margin-top: auto;
+  width: 100%;
+  padding: 11px 14px;
+  border: none;
+  border-radius: 8px;
+  background: #ef4444;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.student-sidebar .logout-btn:hover {
+  background: #dc2626;
+}
+
+.student-content {
+  flex: 1;
+  min-width: 0;
+  padding: 30px;
+  box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+  .student-sidebar {
+    width: 200px;
+  }
+
+  .student-content {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 600px) {
+  .student-layout {
+    flex-direction: column;
+  }
+
+  .student-sidebar {
+    width: 100%;
+    padding: 15px;
+  }
+
+  .student-sidebar .sidebar-header {
+    margin-bottom: 15px;
+  }
+
+  .student-sidebar .sidebar-nav {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .student-sidebar .sidebar-nav a {
+    flex: 1;
+    text-align: center;
+  }
+
+  .student-sidebar .logout-btn {
+    margin-top: 15px;
+  }
+}
