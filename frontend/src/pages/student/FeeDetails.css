@@ -1,0 +1,505 @@
+.fee-details {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* Header */
+
+.fee-details-header {
+  margin-bottom: 28px;
+}
+
+.fee-details-label {
+  margin: 0 0 6px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #2563eb;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.fee-details-header h1 {
+  margin: 0;
+  font-size: 30px;
+  color: #111827;
+}
+
+.fee-details-header p:last-child {
+  margin: 8px 0 0;
+  color: #6b7280;
+  font-size: 15px;
+}
+
+/* Main Summary */
+
+.fee-main-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 28px 30px;
+  margin-bottom: 22px;
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  border-radius: 18px;
+  color: #ffffff;
+  box-shadow: 0 10px 30px rgba(37, 99, 235, 0.18);
+}
+
+.fee-summary-left {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.fee-summary-icon {
+  width: 58px;
+  height: 58px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border-radius: 15px;
+  background: rgba(255, 255, 255, 0.15);
+  font-size: 25px;
+  font-weight: 800;
+}
+
+.fee-summary-left p {
+  margin: 0 0 4px;
+  font-size: 13px;
+  opacity: 0.85;
+}
+
+.fee-summary-left h2 {
+  margin: 0;
+  font-size: 28px;
+}
+
+.fee-summary-left span {
+  display: block;
+  margin-top: 5px;
+  font-size: 13px;
+  opacity: 0.85;
+}
+
+.fee-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 13px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.paid-status {
+  background: rgba(34, 197, 94, 0.18);
+  color: #dcfce7;
+}
+
+.pending-status {
+  background: rgba(251, 191, 36, 0.18);
+  color: #fef3c7;
+}
+
+.fee-status-dot {
+  font-size: 10px;
+}
+
+/* Overview Cards */
+
+.fee-overview-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  margin-bottom: 22px;
+}
+
+.fee-overview-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 21px;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  box-shadow: 0 7px 22px rgba(15, 23, 42, 0.045);
+}
+
+.fee-overview-icon {
+  width: 45px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border-radius: 12px;
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.total-icon {
+  background: #eff6ff;
+  color: #2563eb;
+}
+
+.paid-icon {
+  background: #f0fdf4;
+  color: #16a34a;
+}
+
+.due-icon {
+  background: #fef2f2;
+  color: #dc2626;
+}
+
+.fee-overview-card span {
+  display: block;
+  margin-bottom: 4px;
+  color: #6b7280;
+  font-size: 13px;
+}
+
+.fee-overview-card strong {
+  color: #111827;
+  font-size: 18px;
+}
+
+/* Progress */
+
+.fee-progress-card {
+  padding: 25px;
+  margin-bottom: 22px;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 18px;
+  box-shadow: 0 7px 22px rgba(15, 23, 42, 0.045);
+}
+
+.fee-progress-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 18px;
+}
+
+.fee-progress-header h2 {
+  margin: 0;
+  color: #111827;
+  font-size: 18px;
+}
+
+.fee-progress-header p {
+  margin: 5px 0 0;
+  color: #6b7280;
+  font-size: 13px;
+}
+
+.fee-progress-header > strong {
+  color: #2563eb;
+  font-size: 20px;
+}
+
+.fee-progress-track {
+  width: 100%;
+  height: 10px;
+  overflow: hidden;
+  background: #e5e7eb;
+  border-radius: 20px;
+}
+
+.fee-progress-fill {
+  height: 100%;
+  background: #2563eb;
+  border-radius: inherit;
+  transition: width 0.5s ease;
+}
+
+.fee-progress-footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  margin-top: 12px;
+  color: #6b7280;
+  font-size: 13px;
+}
+
+.fee-progress-footer strong {
+  color: #111827;
+}
+
+/* Fee Structure */
+
+.fee-structure-card {
+  margin-bottom: 22px;
+  padding: 25px;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 18px;
+  box-shadow: 0 7px 22px rgba(15, 23, 42, 0.045);
+}
+
+.fee-structure-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding-bottom: 20px;
+  margin-bottom: 4px;
+  border-bottom: 1px solid #eef0f3;
+}
+
+.fee-structure-header h2 {
+  margin: 0;
+  color: #111827;
+  font-size: 19px;
+}
+
+.fee-structure-header p {
+  margin: 5px 0 0;
+  color: #6b7280;
+  font-size: 13px;
+}
+
+.fee-structure-badge {
+  padding: 6px 11px;
+  border-radius: 20px;
+  background: #eff6ff;
+  color: #2563eb;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.fee-structure-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.fee-structure-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 17px 0;
+  border-bottom: 1px solid #f1f3f5;
+}
+
+.fee-structure-row:last-child {
+  border-bottom: none;
+}
+
+.fee-name {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+}
+
+.fee-row-icon {
+  width: 39px;
+  height: 39px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.tuition-icon {
+  background: #eff6ff;
+  color: #2563eb;
+}
+
+.transport-icon {
+  background: #f5f3ff;
+  color: #7c3aed;
+}
+
+.exam-icon {
+  background: #fff7ed;
+  color: #ea580c;
+}
+
+.other-icon {
+  background: #f0fdf4;
+  color: #16a34a;
+}
+
+.fee-name strong {
+  display: block;
+  color: #111827;
+  font-size: 14px;
+}
+
+.fee-name span {
+  display: block;
+  margin-top: 3px;
+  color: #9ca3af;
+  font-size: 12px;
+}
+
+.fee-structure-row > strong {
+  color: #111827;
+  font-size: 15px;
+  white-space: nowrap;
+}
+
+.fee-total-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  margin-top: 8px;
+  padding: 17px 0 2px;
+  color: #374151;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.fee-total-row strong {
+  color: #2563eb;
+  font-size: 18px;
+}
+
+/* Status */
+
+.fee-status-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 22px 25px;
+  margin-bottom: 10px;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 18px;
+  box-shadow: 0 7px 22px rgba(15, 23, 42, 0.045);
+}
+
+.fee-status-card-icon {
+  width: 46px;
+  height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border-radius: 12px;
+  background: #eff6ff;
+  color: #2563eb;
+  font-size: 19px;
+  font-weight: 800;
+}
+
+.fee-status-card h2 {
+  margin: 0;
+  color: #111827;
+  font-size: 17px;
+}
+
+.fee-status-card p {
+  margin: 5px 0 0;
+  color: #6b7280;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.fee-status-amount {
+  margin-left: auto;
+  text-align: right;
+}
+
+.fee-status-amount span {
+  display: block;
+  margin-bottom: 3px;
+  color: #9ca3af;
+  font-size: 12px;
+}
+
+.fee-status-amount strong {
+  color: #dc2626;
+  font-size: 18px;
+}
+
+/* Loading / Error */
+
+.fee-details-loading,
+.fee-details-error {
+  padding: 40px;
+  text-align: center;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  color: #6b7280;
+}
+
+.fee-details-error {
+  color: #b91c1c;
+  background: #fef2f2;
+  border-color: #fecaca;
+}
+
+/* Responsive */
+
+@media (max-width: 800px) {
+  .fee-overview-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .fee-main-summary {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .fee-status {
+    align-self: flex-start;
+  }
+
+  .fee-status-card {
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .fee-status-amount {
+    margin-left: 62px;
+  }
+}
+
+@media (max-width: 600px) {
+  .fee-details-header h1 {
+    font-size: 25px;
+  }
+
+  .fee-main-summary {
+    padding: 23px;
+  }
+
+  .fee-summary-left h2 {
+    font-size: 24px;
+  }
+
+  .fee-summary-icon {
+    width: 50px;
+    height: 50px;
+  }
+
+  .fee-progress-card,
+  .fee-structure-card,
+  .fee-status-card {
+    padding: 20px;
+  }
+
+  .fee-structure-row {
+    align-items: flex-start;
+  }
+
+  .fee-name {
+    align-items: flex-start;
+  }
+
+  .fee-progress-footer {
+    flex-direction: column;
+    gap: 5px;
+  }
+}
