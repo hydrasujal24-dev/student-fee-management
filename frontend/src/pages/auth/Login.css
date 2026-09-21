@@ -1,10 +1,19 @@
+/* Font Import (यो लाइन सबैभन्दा माथि राख्नुहोस्) */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
 * {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Inter', sans-serif; /* Modern Font */
 }
 
 .login-page {
   min-height: 100vh;
-  background: #f1f5f9;
+  background-color: #f1f5f9; /* Solid Light Background */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -17,89 +26,134 @@
   min-height: 650px;
   display: grid;
   grid-template-columns: 45% 55%;
-  background: white;
-  border-radius: 18px;
+  background: #ffffff;
+  border-radius: 20px;
   overflow: hidden;
-  box-shadow: 0 15px 45px rgba(15, 23, 42, 0.12);
+  /* Soft, professional shadow */
+  box-shadow: 0 20px 40px -10px rgba(15, 23, 42, 0.1), 0 0 1px rgba(0,0,0,0.1);
 }
 
 /* =========================
-   LEFT BRANDING
+   LEFT BRANDING (Solid & Elegant)
 ========================= */
 
 .login-brand {
-  background: #1e40af;
+  position: relative;
+  background-color: #0f172a; /* Deep Navy Solid */
   color: white;
-  padding: 55px;
+  padding: 50px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
 
+/* Subtle pattern overlay instead of heavy gradient */
+.login-brand::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: radial-gradient(circle at 20% 80%, rgba(59, 130, 246, 0.15) 0%, transparent 50%);
+  pointer-events: none;
+}
+
 .brand-content {
-  max-width: 360px;
+  position: relative;
+  z-index: 1;
 }
 
 .brand-icon {
-  width: 54px;
-  height: 54px;
+  width: 52px;
+  height: 52px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(255, 255, 255, 0.15);
+  
+  /* Gold Background */
+  background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+  color: #0f172a; /* Dark text for contrast */
+  
   border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 12px;
-  font-size: 25px;
+  border-radius: 14px;
+  font-size: 24px;
   font-weight: 700;
   margin-bottom: 30px;
+  box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3); /* Golden Glow */
 }
 
 .brand-content h1 {
-  margin: 0;
   font-size: 38px;
-  line-height: 1.15;
+  line-height: 1.2;
   font-weight: 700;
   letter-spacing: -1px;
+  margin-bottom: 20px;
 }
 
 .brand-content > p {
-  margin: 22px 0 35px;
-  color: #dbeafe;
+  color: #94a3b8; /* Muted text */
   font-size: 15px;
-  line-height: 1.7;
+  line-height: 1.6;
+  margin-bottom: 35px;
 }
 
 .brand-features {
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 16px;
 }
 
 .brand-features div {
-  color: #eff6ff;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #e2e8f0;
   font-size: 14px;
+  font-weight: 500;
+}
+
+/* Checkmark styling */
+.brand-features div::before {
+  content: "✓";
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  background: rgba(59, 130, 246, 0.2);
+  color: #60a5fa;
+  border-radius: 50%;
+  font-size: 10px;
 }
 
 .brand-footer {
-  margin: 0;
-  color: #bfdbfe;
+  color: #64748b;
   font-size: 12px;
+  position: relative;
+  z-index: 1;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding-top: 20px;
 }
 
 /* =========================
-   LOGIN
+   LOGIN FORM (Clean & Airy)
 ========================= */
 
 .login-section {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 50px;
+  overflow: hidden;
 }
 
 .login-card {
   width: 100%;
-  max-width: 390px;
+  max-width: 380px;
+  position: relative;
+  z-index: 1; /* यसले गर्दा फर्म Circles माथि देखिन्छ */
 }
 
 .login-heading {
@@ -107,122 +161,135 @@
 }
 
 .login-heading h2 {
-  margin: 0 0 8px;
-  color: #111827;
-  font-size: 30px;
-  font-weight: 700;
+  margin: 0 0 10px;
+  color: #0f172a; /* Dark Navy */
+  font-size: 32px; /* Bigger */
+  font-weight: 800;
+  letter-spacing: -0.8px;
 }
 
 .login-heading p {
-  margin: 0;
-  color: #6b7280;
+  color: #64748b;
   font-size: 14px;
 }
 
+
+
+/* Error Message */
 .login-error {
-  padding: 12px 14px;
-  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  margin-bottom: 24px;
   border-radius: 8px;
   background: #fef2f2;
   border: 1px solid #fecaca;
   color: #b91c1c;
   font-size: 13px;
+  font-weight: 500;
 }
 
+/* Input Fields */
 .login-field {
-  margin-bottom: 20px;
+  margin-bottom: 22px;
 }
 
 .login-field label {
   display: block;
   margin-bottom: 8px;
-  color: #374151;
-  font-size: 14px;
+  color: #334155;
+  font-size: 13px;
   font-weight: 600;
 }
 
 .login-field input {
   width: 100%;
   height: 46px;
-  padding: 0 13px;
-  border: 1px solid #d1d5db;
+  padding: 0 16px;
+  border: 1px solid #cbd5e1; /* Darker border for better visibility */
   border-radius: 8px;
   outline: none;
-  background: white;
-  color: #111827;
+  background: #ffffff; /* White background */
+  color: #0f172a;
   font-size: 14px;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  transition: all 0.2s ease;
 }
 
 .login-field input::placeholder {
-  color: #9ca3af;
+  color: #94a3b8;
+}
+
+.login-field input:hover {
+  border-color: #94a3b8;
 }
 
 .login-field input:focus {
   border-color: #2563eb;
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1); /* Subtle focus ring */
 }
 
-/* Password */
-
+/* Password Toggle */
 .password-wrapper {
   position: relative;
 }
 
 .password-wrapper input {
-  padding-right: 65px;
+  padding-right: 60px;
 }
 
 .password-toggle {
   position: absolute;
-  right: 10px;
+  right: 14px;
   top: 50%;
   transform: translateY(-50%);
   border: none;
   background: transparent;
   color: #2563eb;
   font-size: 12px;
-  font-weight: 600;
+  font-weight: 700;
   cursor: pointer;
+  padding: 4px;
 }
 
 .password-toggle:hover {
   color: #1d4ed8;
 }
 
-/* Login button */
-
+/* Button (Solid, No Gradient) */
 .login-button {
   width: 100%;
   height: 46px;
-  margin-top: 8px;
+  margin-top: 10px;
   border: none;
   border-radius: 8px;
-  background: #2563eb;
+  background-color: #2563eb; /* Solid Blue */
   color: white;
   font-size: 15px;
   font-weight: 600;
   cursor: pointer;
-  transition: background 0.2s, transform 0.1s;
+  box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.2);
+  transition: all 0.2s ease;
 }
 
-.login-button:hover {
-  background: #1d4ed8;
+.login-button:hover:not(:disabled) {
+  background-color: #1d4ed8;
+  box-shadow: 0 6px 12px -2px rgba(37, 99, 235, 0.3);
 }
 
-.login-button:active {
+.login-button:active:not(:disabled) {
   transform: translateY(1px);
 }
 
 .login-button:disabled {
-  opacity: 0.65;
+  opacity: 0.7;
   cursor: not-allowed;
 }
 
 .login-footer {
-  margin: 25px 0 0;
+  margin-top: 28px;
   text-align: center;
-  color: #9ca3af;
+  color: #94a3b8;
   font-size: 12px;
 }
 
@@ -239,6 +306,7 @@
     max-width: 480px;
     min-height: auto;
     display: block;
+    border-radius: 16px;
   }
 
   .login-brand {
@@ -246,7 +314,7 @@
   }
 
   .login-section {
-    padding: 45px 30px;
+    padding: 40px 30px;
   }
 }
 
@@ -256,10 +324,11 @@
   }
 
   .login-section {
-    padding: 35px 22px;
+    padding: 30px 20px;
   }
 
   .login-heading h2 {
     font-size: 26px;
   }
 }
+
